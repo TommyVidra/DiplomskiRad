@@ -352,6 +352,9 @@ function addInvocations(j, key, searchData){
                     </div>`
         }
     }
+    else{
+        console.log("1")
+    }
     return htmlString
 }
 

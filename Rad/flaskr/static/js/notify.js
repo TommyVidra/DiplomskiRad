@@ -57,7 +57,7 @@ class Notification {
       } else if (notification) {
         firstTimer = setTimeout(() => {
           notification.remove();
-        }, 10000);
+        }, 1000);
       }
     } else {
       area.appendChild(notification);
@@ -67,7 +67,7 @@ class Notification {
       } else {
         secondTimer = setTimeout(function() {
           notification.remove();
-        }, 10000);
+        }, 1000);
       }
     }
     $("#close-div").on('click', () => {
