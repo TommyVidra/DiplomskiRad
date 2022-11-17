@@ -45,6 +45,59 @@ INVOCATION_KOMB_DICTIONARY = {
     "ion12": "pozdrav šakom (šakica)",
     "ion13": "pozdrav kao pri obaranju ruke",
     "ion0": "Nepoznato",
+    "epv1": "najavljivanje kraja susreta",
+    "epv2": "zaključivanje razgovora",
+    "epv3": "planiranje idućega susreta",
+    "epv4": "poziv na idući susret",
+    "epv5": "naznaka želje za lijepo provedenim vremenom",
+    "epv6": "isprika radi otklanjanja sumnje u eventualne loše namjere",
+    "epv7": "slanje pozdrava (obitelji, prijateljima...)",
+    "epv8": "izražavanje zadovoljstva zbog susreta i zahvaljivanje za uspostavljenom komunikacijom",
+    "epv9": "pozdravljanje sugovornika",
+    "epv10": "prekidanje razgovora u slučaju neuspjele komunikacije",
+    "epv0": "Nepoznato",
+
+    "epn1": "rukovanje",
+    "epn2": "pružanje ruke",
+    "epn3": "tapšanje po ramenu i sl.",
+    "epn4": "kimanje glavom",
+    "epn5": "mahanje",
+    "epn6": "ljubljenje",
+    "epn7": "grljenje",
+    "epn8": "pusa u zraku",
+    "epn9": "ignoriranje",
+    "epn10": "daj pet",
+    "epn11": "osmijeh ili smiješak",
+    "epn12": "pozdrav šakom (šakica)",
+    "epn13": "pozdrav kao pri obaranju ruke",
+    "epn0": "Nepoznato",
+
+    "eov1": "najavljivanje kraja susreta",
+    "eov2": "zaključivanje razgovora",
+    "eov3": "planiranje idućega susreta",
+    "eov4": "poziv na idući susret",
+    "eov5": "naznaka želje za lijepo provedenim vremenom",
+    "eov6": "isprika radi otklanjanja sumnje u eventualne loše namjere",
+    "eov7": "slanje pozdrava (obitelji, prijateljima...)",
+    "eov8": "izražavanje zadovoljstva zbog susreta i zahvaljivanje za uspostavljenom komunikacijom",
+    "eov9": "pozdravljanje sugovornika",
+    "eov10": "prekidanje razgovora u slučaju neuspjele komunikacije",
+    "eov0": "Nepoznato",
+
+    "eon1": "rukovanje",
+    "eon2": "pružanje ruke",
+    "eon3": "tapšanje po ramenu i sl.",
+    "eon4": "kimanje glavom",
+    "eon5": "mahanje",
+    "eon6": "ljubljenje",
+    "eon7": "grljenje",
+    "eon8": "pusa u zraku",
+    "eon9": "ignoriranje",
+    "eon10": "daj pet",
+    "eon11": "osmijeh ili smiješak",
+    "eon12": "pozdrav šakom (šakica)",
+    "eon13": "pozdrav kao pri obaranju ruke",
+    "eon0": "Nepoznato",
 }
 
 EXVOCATION_KOMB_DICTIONARY={
@@ -103,8 +156,11 @@ EXVOCATION_KOMB_DICTIONARY={
     "eon0": "Nepoznato",
 }
 
+BASIC_SEARCH_KEYS=["opis", "emocija", "sudionik", "prostor", "datum", "zamjena_sudionika", "autor", "vrijeme", "kontekst", "ostalo"]
+
+
 function returnBoldAttr(text){
-    return `<span class='notbold'>${text}:</span> `
+    return `<span>${text}:</span> `
 }
 
 function returnCardHeader(participant, greetingString){
