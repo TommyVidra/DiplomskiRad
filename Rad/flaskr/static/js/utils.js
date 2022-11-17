@@ -156,7 +156,7 @@ EXVOCATION_KOMB_DICTIONARY={
     "eon0": "Nepoznato",
 }
 
-BASIC_SEARCH_KEYS=["opis", "emocija", "sudionik", "prostor", "datum", "zamjena_sudionika", "autor", "vrijeme", "kontekst", "ostalo"]
+BASIC_SEARCH_KEYS=["opis", "emocija", "sudionik", "prostor", "datum", "zamjena_sudionika", "autor", "vrijeme", "kontekst"]
 
 
 function returnBoldAttr(text){

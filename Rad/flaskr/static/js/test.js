@@ -5,7 +5,7 @@ let ADVANCED_SEARCH = false
 let ADVANCED_SET = false
 let ACTIVE_BUTTONS = {}
 
-const NONCOMPLEX_ATTRS = ["autor_upisa", "prostor", "datum", "vrijeme", "zamjena_sudionika", "sudionik1", "sudionik2", "situacijski_kontekst"]
+const NONCOMPLEX_ATTRS = ["autor", "sudionik","autor_upisa", "prostor", "datum", "vrijeme", "zamjena_sudionika", "sudionik1", "sudionik2", "situacijski_kontekst"]
 
 const EXVOCATION_GREETING = "exv_poz"
 const INVOCATION_GREETING = "inv_poz"
@@ -67,6 +67,7 @@ $.ajax({
 
 const DATA = JSON.parse(JSON.parse(localStorage['data']))
 
+
 $("#inv-exv").on("click", () => {
     if($("#inv-exv").text() === "Invokacija"){
         $("#inv-exv").text("Eksvokacija")
@@ -82,6 +83,41 @@ $("#inv-exv").on("click", () => {
     }
 })
 
+function addBasicAttributeSearch(){
+    index=0
+    for(i in BASIC_SEARCH_KEYS){
+        key = BASIC_SEARCH_KEYS[i]
+        console.log(key)
+        let htmlString = ""
+        if(index%5 === 0){
+            if(index !== 0){
+                htmlString += "</div></div>"
+            }
+            htmlString += `<div class="container">
+            <div class="row" id="${index}-row">
+            <div class="input-group mb-3" id="${key}-div">
+            <button class="btn btn-outline-secondary" type="button" id="${key}-button">${key}</button>
+            <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
+        </div>`
+        $("#basic-advanced").append(htmlString)
+        index += 1
+        }
+        else{
+        htmlString += `
+        <div class="input-group mb-3" id="${key}-div">
+            <button class="btn btn-outline-secondary" type="button" id="${key}-button">${key}</button>
+            <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
+        </div>`
+        $(`#${index-1}-row`).append(htmlString)
+
+        }
+        addButtonListener(`${key}-button`)
+        // $("#basic-advanced").append(htmlString)
+    }
+}
+
+addBasicAttributeSearch()
+console.log(ACTIVE_BUTTONS)
 
 function searchNonComplexAttr(event, keys){
     for(key in keys){
@@ -109,7 +145,7 @@ function attributeSearch(j){
         }
     }
     
-    for(key in j){
+    for(key in DATA){
         let matches = true
         let restMatches = false
         let restNeeded = false
@@ -314,7 +350,6 @@ function returnCardAttrs(entryParameter, greetingFlag){
             if(attrKey.includes(REST)){
                 if(entryParameter[attrKey].length >2 )
                     restString += ` | ${returnRestAttributes(entryParameter[attrKey])}`
-                    // restString += ` | ${entryParameter[attrKey]}`
 
             }
             else{
@@ -746,10 +781,6 @@ function search(){
 
         if(html !== ""){
             
-            // invocationGreeting = changeUnknownValues(invocationGreeting)
-            // invocationResponse = changeUnknownValues(invocationResponse)
-            // exvocationGreeting = changeUnknownValues(exvocationGreeting)
-            // exvocationResponse = changeUnknownValues(exvocationResponse)
             [greeting, response] = returnCardHtml(DATA[key], true, [INVOCATION_GREETING, INVOCAITON_RESPONSE])
             const invocationData = greeting+response;
             [greeting, response] = returnCardHtml(DATA[key], false, [EXVOCATION_GREETING, EXVOCATION_RESPONSE])
@@ -804,8 +835,15 @@ function addButtonListener(id){
             $(`#${id}`).css("color", LIGHT_COLOR)
             ACTIVE_BUTTONS[id] = true
         }
-
     })
+
+    inputId = id.replace("button", "input")
+    $(`#${inputId}`).on('keypress',function(e) {
+        if(e.which === 13) {
+            $("#divider").css("display", "inline")
+            search();
+        }
+    });
 }
 
 $("#advanced-button").on('click', ()=>{
@@ -814,6 +852,7 @@ $("#advanced-button").on('click', ()=>{
         $("#advanced-button").css("color", DARK_COLOR)
         $("#advanced").css("display", "none")
         $("#inv-exv").css("display", "none")
+        $("#basic-advanced").css("display", "inline")
         ADVANCED_SEARCH = false
     }
     else{
@@ -821,6 +860,7 @@ $("#advanced-button").on('click', ()=>{
         $("#advanced-button").css("background-color", DARK_COLOR)
         $("#advanced-button").css("color", LIGHT_COLOR)
         $("#inv-exv").css("display", "inline-block")
+        $("#basic-advanced").css("display", "none")
         if(ADVANCED_SET){
             $("#advanced").css("display", "inline")
             ADVANCED_SEARCH = true
