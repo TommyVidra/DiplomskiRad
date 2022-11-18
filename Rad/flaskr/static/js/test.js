@@ -6,6 +6,14 @@ let ADVANCED_SET = false
 let ACTIVE_BUTTONS = {}
 
 const NONCOMPLEX_ATTRS = ["autor", "sudionik","autor_upisa", "prostor", "datum", "vrijeme", "zamjena_sudionika", "sudionik1", "sudionik2", "situacijski_kontekst"]
+const BASIC_ATTR_SEARCH_BUTTONS = ["sudionik", "opis", "emocija", "autor", "kontekst"]
+const DICTIONARY_BASIC_ATTRS = {
+    "sudionik" : ["sudionik1", "sudionik2"],
+    "opis": ["opis_ipn", "opis_eon", "opis_ipv", "opis_ion", "opis_epv", "opis_iov", "opis_epn"],
+    "emocija": ["emocija_iov", "emocija_eov", "emocija_epv", "emocija_eon", "emocija_epn", "emocija_ipn", "emocija_ipv", "emocija_ion"],
+    "autor" : ["autor_upisa"],
+    "kontekst": ["situacijski_kontekst"]
+}
 
 const EXVOCATION_GREETING = "exv_poz"
 const INVOCATION_GREETING = "inv_poz"
@@ -87,7 +95,6 @@ function addBasicAttributeSearch(){
     index=0
     for(i in BASIC_SEARCH_KEYS){
         key = BASIC_SEARCH_KEYS[i]
-        console.log(key)
         let htmlString = ""
         if(index%5 === 0){
             if(index !== 0){
@@ -96,7 +103,7 @@ function addBasicAttributeSearch(){
             htmlString += `<div class="container">
             <div class="row" id="${index}-row">
             <div class="input-group mb-3" id="${key}-div">
-            <button class="btn btn-outline-secondary" type="button" id="${key}-button">${key}</button>
+            <button class="btn btn-outline-secondary" type="button" id="${key}-button-basic">${key}</button>
             <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
         </div>`
         $("#basic-advanced").append(htmlString)
@@ -105,19 +112,17 @@ function addBasicAttributeSearch(){
         else{
         htmlString += `
         <div class="input-group mb-3" id="${key}-div">
-            <button class="btn btn-outline-secondary" type="button" id="${key}-button">${key}</button>
+            <button class="btn btn-outline-secondary" type="button" id="${key}-button-basic">${key}</button>
             <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
         </div>`
         $(`#${index-1}-row`).append(htmlString)
 
         }
-        addButtonListener(`${key}-button`)
-        // $("#basic-advanced").append(htmlString)
+        addButtonListener(`${key}-button-basic`)
     }
 }
 
 addBasicAttributeSearch()
-console.log(ACTIVE_BUTTONS)
 
 function searchNonComplexAttr(event, keys){
     for(key in keys){
@@ -130,76 +135,84 @@ function searchNonComplexAttr(event, keys){
     return false
 }
 
-function attributeSearch(j){
-    let keys = []
-    let returnEntries = {}
-    let nonComplex = true
-
-    // Treba napraviti da ide od kljuca do kljuca i trazi podate iz j
+function returnActiveKeys(){
+    let activeKeys = []
     for (button in ACTIVE_BUTTONS){
         if(ACTIVE_BUTTONS[button]){
             key = button.split("-button")[0]
-            if(!NONCOMPLEX_ATTRS.includes(key))
-                nonComplex = false
-            keys.push(key)
+            if(BASIC_ATTR_SEARCH_BUTTONS.includes(key))
+                activeKeys = activeKeys.concat(DICTIONARY_BASIC_ATTRS[key])
+            else
+                activeKeys.push(key)
         }
     }
-    
-    for(key in DATA){
-        let matches = true
-        let restMatches = false
-        let restNeeded = false
-        
-        for(index in keys){
-            const attr = keys[index]
-            const inputValue = $(`#${attr}-input`).val()
-            if(NONCOMPLEX_ATTRS.includes(attr)){
-                if(typeof j[key][attr] === 'undefined' || !j[key][attr].includes(inputValue))
-                    matches = false          
-            }
-            else{
-                if(attr === REST_ATTR){
-                    restNeeded = true
-                    for(restKey in REST_ATTRS){
-                        for(index in REST_ATTRS[restKey]){
-                            restAttr = REST_ATTRS[restKey][index]
-                            if(typeof j[key][restKey] !== 'undefined' && typeof j[key][restKey][restAttr] !== 'undefined' && j[key][restKey][restAttr].includes(inputValue))
-                                restMatches = true
-                        }
-                    }
+    console.log(activeKeys)
+    return activeKeys
+}
+
+function attributeSearch(){
+    let returnEntries = {}
+    const attrKeys = returnActiveKeys();
+    if(attrKeys.length > 1){    
+        for(key in DATA){
+            let matches = true
+            let restMatches = false
+            let restNeeded = false
+            
+            for(index in attrKeys){
+                const attr = attrKeys[index]
+                const inputValue = $(`#${attr}-input`).val()
+                if(NONCOMPLEX_ATTRS.includes(attr)){
+                    if(typeof DATA[key][attr] === 'undefined' || !DATA[key][attr].includes(inputValue))
+                        matches = false          
                 }
                 else{
-                    const attrId = attr.split("_")[1]
-                    const exvocation = attrId.includes("e")
-                    const greeting = attrId.includes("p")
-                    if(exvocation){
-                        if(greeting){
-                            if(typeof j[key][EXVOCATION_GREETING] === 'undefined' || typeof j[key][EXVOCATION_GREETING][attr] === 'undefined' || !j[key][EXVOCATION_GREETING][attr].includes(inputValue))
-                                matches = false 
-                        }
-                        else{
-                            if(typeof j[key][EXVOCATION_RESPONSE] === 'undefined' || typeof j[key][EXVOCATION_RESPONSE][attr] === 'undefined' || !j[key][EXVOCATION_RESPONSE][attr].includes(inputValue))
-                                matches = false 
+                    if(attr === REST_ATTR){
+                        restNeeded = true
+                        for(restKey in REST_ATTRS){
+                            for(index in REST_ATTRS[restKey]){
+                                restAttr = REST_ATTRS[restKey][index]
+                                if(typeof DATA[key][restKey] !== 'undefined' && typeof DATA[key][restKey][restAttr] !== 'undefined' && DATA[key][restKey][restAttr].includes(inputValue))
+                                    restMatches = true
+                            }
                         }
                     }
                     else{
-                        if(greeting){
-                            if(typeof j[key][INVOCATION_GREETING] === 'undefined' || typeof j[key][INVOCATION_GREETING][attr] === 'undefined' || !j[key][INVOCATION_GREETING][attr].includes(inputValue))
-                                matches = false 
+                        const attrId = attr.split("_")[1]
+                        const exvocation = attrId.includes("e")
+                        const greeting = attrId.includes("p")
+                        if(exvocation){
+                            if(greeting){
+                                if(typeof DATA[key][EXVOCATION_GREETING] === 'undefined' || typeof DATA[key][EXVOCATION_GREETING][attr] === 'undefined' || !DATA[key][EXVOCATION_GREETING][attr].includes(inputValue))
+                                    matches = false 
+                            }
+                            else{
+                                if(typeof DATA[key][EXVOCATION_RESPONSE] === 'undefined' || typeof DATA[key][EXVOCATION_RESPONSE][attr] === 'undefined' || !DATA[key][EXVOCATION_RESPONSE][attr].includes(inputValue))
+                                    matches = false 
+                            }
                         }
                         else{
-                            if(typeof j[key][INVOCAITON_RESPONSE] === 'undefined' || typeof j[key][INVOCAITON_RESPONSE][attr] === 'undefined' || !j[key][INVOCAITON_RESPONSE][attr].includes(inputValue))
-                                matches = false 
+                            if(greeting){
+                                if(typeof DATA[key][INVOCATION_GREETING] === 'undefined' || typeof DATA[key][INVOCATION_GREETING][attr] === 'undefined' || !DATA[key][INVOCATION_GREETING][attr].includes(inputValue))
+                                    matches = false 
+                            }
+                            else{
+                                if(typeof DATA[key][INVOCAITON_RESPONSE] === 'undefined' || typeof DATA[key][INVOCAITON_RESPONSE][attr] === 'undefined' || !DATA[key][INVOCAITON_RESPONSE][attr].includes(inputValue))
+                                    matches = false 
+                            }
                         }
                     }
+                    
                 }
-                
+                if(!matches)
+                    break;
             }
+            if(matches && ((restNeeded && restMatches) || (!restMatches & !restNeeded)))
+                returnEntries[key] = DATA[key]
         }
-        if(matches && ((restNeeded && restMatches) || (!restMatches & !restNeeded)))
-            returnEntries[key] = j[key]
+        return returnEntries
     }
-    return returnEntries
+    return DATA
 }
 
 function returnInvocationCard(j, key){
@@ -707,9 +720,7 @@ let usedKeys = []
 
 function addListeners(key){
     $(`#${key}`).on('click', function(){
-        console.log("Kurac mali")
         if($(`#${key}-small`).css("display") === "none"){
-            console.log("Nije vidljiv")
             $(`#${key}-small`).css("display", "block")
             $(`#${key}-large`).css("display", "none")
         }
@@ -723,24 +734,21 @@ function addListeners(key){
 
 function search(){
     const searchData = $("#main-search-input").val()
-    // let k = {}
     $("#dictionary-content").contents().remove()
-    // if(ADVANCED_SEARCH){
-    //     k = attributeSearch(j)
-    //     j = k
-    // }
+    let data = attributeSearch()
+
     let index = 0
-    for(key in DATA){
+    for(key in data){
         let html = ''
         let footer = ''
-        let author = DATA[key]['autor_upisa']
+        let author = data[key]['autor_upisa']
         if(typeof author === UNDEFINED)
             author = "Nepoznato"
 
-        invocationGreeting = DATA[key][INVOCATION_GREETING]
-        invocationResponse = DATA[key][INVOCAITON_RESPONSE]
-        exvocationGreeting = DATA[key][EXVOCATION_GREETING]
-        exvocationResponse = DATA[key][EXVOCATION_RESPONSE]
+        invocationGreeting = data[key][INVOCATION_GREETING]
+        invocationResponse = data[key][INVOCAITON_RESPONSE]
+        exvocationGreeting = data[key][EXVOCATION_GREETING]
+        exvocationResponse = data[key][EXVOCATION_RESPONSE]
         
         invocationGreetingMatch = returnIfMatch(invocationGreeting, searchData, GREETING)
         invocationResponseMatch = returnIfMatch(invocationResponse, searchData, RESPONSE)
@@ -772,7 +780,7 @@ function search(){
             }
             
             footer = `
-            <small class="text-muted">${type} | ${DATA[key]["prostor"]} | ${DATA[key]["datum"]} | ${DATA[key]["vrijeme"]}</small>
+            <small class="text-muted">${type} | ${data[key]["prostor"]} | ${data[key]["datum"]} | ${data[key]["vrijeme"]}</small>
             <div class="card-footer">
                 <small class="text-muted">Autor: ${author}</small>
             </div>`
@@ -781,9 +789,9 @@ function search(){
 
         if(html !== ""){
             
-            [greeting, response] = returnCardHtml(DATA[key], true, [INVOCATION_GREETING, INVOCAITON_RESPONSE])
+            [greeting, response] = returnCardHtml(data[key], true, [INVOCATION_GREETING, INVOCAITON_RESPONSE])
             const invocationData = greeting+response;
-            [greeting, response] = returnCardHtml(DATA[key], false, [EXVOCATION_GREETING, EXVOCATION_RESPONSE])
+            [greeting, response] = returnCardHtml(data[key], false, [EXVOCATION_GREETING, EXVOCATION_RESPONSE])
             const exvocationData = greeting + response;
 
             if (index%2 === 0){
@@ -879,7 +887,7 @@ $("#advanced-button").on('click', ()=>{
                         htmlString += `<div class="container">
                         <div class="row" id="${index}-row">
                         <div class="input-group mb-3" id="${j[key]}-div">
-                        <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button">${j[key]}</button>
+                        <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button-advanced">${j[key]}</button>
                         <input id="${j[key]}-input" type="text" class="form-control" placeholder="" aria-label="${j[key]}" aria-describedby="${j[key]}">
                     </div>`
                     $("#advanced").append(htmlString)
@@ -887,24 +895,24 @@ $("#advanced-button").on('click', ()=>{
                     }
                     else{
                     htmlString += `<div class="input-group mb-3" id="${j[key]}-div">
-                    <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button">${j[key]}</button>
+                    <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button-advanced">${j[key]}</button>
                     <input id="${j[key]}-input" type="text" class="form-control" placeholder="" aria-label="${j[key]}" aria-describedby="${j[key]}">
                 </div>`
                     $(`#${index-1}-row`).append(htmlString)
         
                     }
-                    addButtonListener(`${j[key]}-button`)
+                    addButtonListener(`${j[key]}-button-advanced`)
                 }  
 
             }
             htmlString = ""
             key = "ostalo"
             htmlString += `<div class="input-group mb-3" id="${key}-div">
-                        <button class="btn btn-outline-secondary" type="button" id="${key}-button">${key}</button>
+                        <button class="btn btn-outline-secondary" type="button" id="${key}-button-advanced">${key}</button>
                         <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
                     </div>`
             $(`#${index-1}-row`).append(htmlString)
-            addButtonListener("ostalo-button")
+            addButtonListener("ostalo-button-advanced")
             $("#advanced").css("display", "inline")
         
             ADVANCED_SET = true
