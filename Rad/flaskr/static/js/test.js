@@ -64,14 +64,16 @@ const HTML_REST = '<p class="card-text"><span>ostalo</span>'
 $.ajax({
     url: "/dict"
 }).done((data) => {
+    console.log(data)
     localStorage.setItem("attr", JSON.stringify(data))
 })
 
-$.ajax({
-    url: "/return"
-}).done((data) => {
-    localStorage.setItem("data", JSON.stringify(data))
-})
+// $.ajax({
+//     url: "/return"
+// }).done((data) => {
+//     console.log(data)
+//     localStorage.setItem("data", JSON.stringify(data))
+// })
 
 const DATA = JSON.parse(JSON.parse(localStorage['data']))
 
@@ -926,5 +928,19 @@ $("#advanced-button").on('click', ()=>{
 $("#search-button").on('click', function (){
     
     $("#divider").css("display", "inline")
+    
+    const searchData = $("#main-search-input").val()
+
+    $.ajax({
+        url: "/search",
+        type: 'POST',
+        dataType: 'json',
+        data: {search_string: searchData}
+    }).done((data) => {
+        // localStorage.setItem("data", JSON.stringify(data
+        l = JSON.parse(data[0]["attrs"])
+        console.log(l)
+    })
+
     search();
 })
