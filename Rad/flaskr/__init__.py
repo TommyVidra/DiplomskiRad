@@ -64,12 +64,6 @@ def create_app(test_config=None):
             except Exception as e:
                 return 'Dogodila se greška '+ str(e)
 
-    # @app.route("/return")
-    # def return_entries():
-    #     list_dictionary = xml_reader.return_entries()
-    #     list_dictionary = json.dumps(list_dictionary, cls=SetEncoder, sort_keys=True, ensure_ascii=False)
-    #     return list_dictionary
-
     @app.route("/dict", methods=['GET'])
     def return_dict():
         dictionary_attributes= set(xml_reader.main())
@@ -80,28 +74,76 @@ def create_app(test_config=None):
     def return_search_data():
     # Return data depending on search parameters
         search_string = request.form['search_string']
-        search_params = request.form['search_params']
+        search_params = json.loads(request.form['search_params'], encoding="utf-8")
+        search_type = request.form['search_type']
+        basic = False
+
+        if search_type == '0':
+            basic = True 
+
+        or_attributes = {
+            "emocije": [],
+            "opis": [],
+            "sudionik": []
+        }
+
+        if basic:
+            for key in search_params:
+                if "emocija" in key:
+                    or_attributes['emocije'].append(key)
+                elif "sudionik" in key:
+                    or_attributes['sudionik'].append(key)
+                elif "opis" in key:
+                    or_attributes['opis'].append(key)
+
         results = []
         index = 0
+        
         for key in _DATA:
-            match = False
+            match = True
             
             if search_string in key.invocation_elements.greeting or \
             search_string in key.exvocation_elements.greeting or \
             search_string in key.invocation_elements.response or \
             search_string in key.exvocation_elements.response:
 
-                dict = {
-                    "inv_greeting": key.invocation_elements.greeting,
-                    "inv_response": key.invocation_elements.response,
-                    "exv_greeting": key.exvocation_elements.greeting,
-                    "exv_response": key.exvocation_elements.response,
-                    "attrs": json.dumps(list(key.attributes.items())),
-                    }
-                results.append(dict)
-                index +=1
-                
+                if basic:
+                    for attribute_section in or_attributes:
+                        if len(or_attributes[attribute_section]) > 1:
+                            or_match = False
+                            value = search_params[or_attributes[attribute_section][0]]
+                            for attribute in or_attributes[attribute_section]:
+                                if value in key.attributes[attribute]:
+                                    or_match = True 
+                                    break
+                            if not or_match:
+                                match = False
+                                break
+
+                if match:
+                    # If search is not basic
+                    for search_attribute in search_params:
+                        try:
+                            if search_params[search_attribute] not in key.attributes[search_attribute]:
+                                match = False
+                                break
+                        except KeyError:
+                            match = False
+                    
+
+                if match:
+                    dict = {
+                        "inv_greeting": key.invocation_elements.greeting,
+                        "inv_response": key.invocation_elements.response,
+                        "exv_greeting": key.exvocation_elements.greeting,
+                        "exv_response": key.exvocation_elements.response,
+                        "attrs": json.dumps(list(key.attributes.items())),
+                        }
+                    results.append(dict)
+                    index +=1
+
         print(index)
+        # print(results)
         return json.dumps(results, cls=SetEncoder, sort_keys=True, ensure_ascii=False)
 
     @app.route("/")

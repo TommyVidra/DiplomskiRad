@@ -56,3 +56,15 @@ p > span{
 .large{
     display: none;
 }
+
+.large > h5, p{
+    margin-left: 10px;
+}
+
+.large > h4{
+    color: #7C8FA2;
+}
+
+.large > h5{
+    margin-top: 12px;
+}

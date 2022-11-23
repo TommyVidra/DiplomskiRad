@@ -792,9 +792,9 @@ function search(){
         if(html !== ""){
             
             [greeting, response] = returnCardHtml(data[key], true, [INVOCATION_GREETING, INVOCAITON_RESPONSE])
-            const invocationData = greeting+response;
+            const invocationData = `<h4>Invokacija:</h4>${greeting+response}`;
             [greeting, response] = returnCardHtml(data[key], false, [EXVOCATION_GREETING, EXVOCATION_RESPONSE])
-            const exvocationData = greeting + response;
+            const exvocationData = `<h4>Eksvokacija:</h4>${greeting+response}`;
 
             if (index%2 === 0){
                 index += 1
@@ -928,14 +928,30 @@ $("#advanced-button").on('click', ()=>{
 $("#search-button").on('click', function (){
     
     $("#divider").css("display", "inline")
-    
     const searchData = $("#main-search-input").val()
-
+    let searchAttrs = {}
+    let searchType = 1 // 1 = advanced, 0 = basic
+    for(button in ACTIVE_BUTTONS){
+        if(ACTIVE_BUTTONS[button]){
+            const buttonId = button.split("-button")[0]
+            const inputValue = $(`#${buttonId}-input`).val()
+            let attr = [buttonId]
+            
+            if(BASIC_ATTR_SEARCH_BUTTONS.includes(buttonId)){
+                attr = DICTIONARY_BASIC_ATTRS[buttonId]
+                searchType = 0
+            }
+                
+            for(a in attr)
+                searchAttrs[attr[a]] = inputValue
+        }
+    }
+    console.log(searchAttrs)
     $.ajax({
         url: "/search",
         type: 'POST',
         dataType: 'json',
-        data: {search_string: searchData}
+        data: {search_string: searchData, search_params: JSON.stringify(searchAttrs), search_type: searchType}
     }).done((data) => {
         // localStorage.setItem("data", JSON.stringify(data
         l = JSON.parse(data[0]["attrs"])
