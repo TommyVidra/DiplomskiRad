@@ -68,3 +68,13 @@ p > span{
 .large > h5{
     margin-top: 12px;
 }
+
+.dropdown{
+    width: 100%;
+}
+#dropdownType{
+    width: 100%;
+}
+.dropdown-menu{
+    width:100%
+}

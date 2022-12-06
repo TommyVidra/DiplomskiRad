@@ -64,19 +64,8 @@ const HTML_REST = '<p class="card-text"><span>ostalo</span>'
 $.ajax({
     url: "/dict"
 }).done((data) => {
-    console.log(data)
     localStorage.setItem("attr", JSON.stringify(data))
 })
-
-// $.ajax({
-//     url: "/return"
-// }).done((data) => {
-//     console.log(data)
-//     localStorage.setItem("data", JSON.stringify(data))
-// })
-
-const DATA = JSON.parse(JSON.parse(localStorage['data']))
-
 
 $("#inv-exv").on("click", () => {
     if($("#inv-exv").text() === "Invokacija"){
@@ -148,73 +137,7 @@ function returnActiveKeys(){
                 activeKeys.push(key)
         }
     }
-    console.log(activeKeys)
     return activeKeys
-}
-
-function attributeSearch(){
-    let returnEntries = {}
-    const attrKeys = returnActiveKeys();
-    if(attrKeys.length > 1){    
-        for(key in DATA){
-            let matches = true
-            let restMatches = false
-            let restNeeded = false
-            
-            for(index in attrKeys){
-                const attr = attrKeys[index]
-                const inputValue = $(`#${attr}-input`).val()
-                if(NONCOMPLEX_ATTRS.includes(attr)){
-                    if(typeof DATA[key][attr] === 'undefined' || !DATA[key][attr].includes(inputValue))
-                        matches = false          
-                }
-                else{
-                    if(attr === REST_ATTR){
-                        restNeeded = true
-                        for(restKey in REST_ATTRS){
-                            for(index in REST_ATTRS[restKey]){
-                                restAttr = REST_ATTRS[restKey][index]
-                                if(typeof DATA[key][restKey] !== 'undefined' && typeof DATA[key][restKey][restAttr] !== 'undefined' && DATA[key][restKey][restAttr].includes(inputValue))
-                                    restMatches = true
-                            }
-                        }
-                    }
-                    else{
-                        const attrId = attr.split("_")[1]
-                        const exvocation = attrId.includes("e")
-                        const greeting = attrId.includes("p")
-                        if(exvocation){
-                            if(greeting){
-                                if(typeof DATA[key][EXVOCATION_GREETING] === 'undefined' || typeof DATA[key][EXVOCATION_GREETING][attr] === 'undefined' || !DATA[key][EXVOCATION_GREETING][attr].includes(inputValue))
-                                    matches = false 
-                            }
-                            else{
-                                if(typeof DATA[key][EXVOCATION_RESPONSE] === 'undefined' || typeof DATA[key][EXVOCATION_RESPONSE][attr] === 'undefined' || !DATA[key][EXVOCATION_RESPONSE][attr].includes(inputValue))
-                                    matches = false 
-                            }
-                        }
-                        else{
-                            if(greeting){
-                                if(typeof DATA[key][INVOCATION_GREETING] === 'undefined' || typeof DATA[key][INVOCATION_GREETING][attr] === 'undefined' || !DATA[key][INVOCATION_GREETING][attr].includes(inputValue))
-                                    matches = false 
-                            }
-                            else{
-                                if(typeof DATA[key][INVOCAITON_RESPONSE] === 'undefined' || typeof DATA[key][INVOCAITON_RESPONSE][attr] === 'undefined' || !DATA[key][INVOCAITON_RESPONSE][attr].includes(inputValue))
-                                    matches = false 
-                            }
-                        }
-                    }
-                    
-                }
-                if(!matches)
-                    break;
-            }
-            if(matches && ((restNeeded && restMatches) || (!restMatches & !restNeeded)))
-                returnEntries[key] = DATA[key]
-        }
-        return returnEntries
-    }
-    return DATA
 }
 
 function returnInvocationCard(j, key){
@@ -341,9 +264,10 @@ function returnRestAttributes(restString){
     return s
 }
 
-function returnCardAttrs(entryParameter, greetingFlag){
+function returnCardAttrs(attributesDictionary){
     attrString = ""
-    let restString = ""
+    let gRestString = ""
+    let rRestString = ""
     let rest = '<p class="card-text"><span>ostalo</span>'
 
     nonverbalDescritpion = ""
@@ -360,49 +284,63 @@ function returnCardAttrs(entryParameter, greetingFlag){
     let responseVerbalDescription =  ""
     let greetingVerbalDescription =  ""
 
-    for(attrKey in entryParameter){
+    for(attrKey in attributesDictionary){
         if(attrKey !== GREETING){
             if(attrKey.includes(REST)){
-                if(entryParameter[attrKey].length >2 )
-                    restString += ` | ${returnRestAttributes(entryParameter[attrKey])}`
+                if(attrKey.split("_")[1].includes("p") && attributesDictionary[attrKey].length > 2 )
+                    gRestString += ` | ${returnRestAttributes(attributesDictionary[attrKey])}`
+                if(attributesDictionary[attrKey].length >2 )
+                    rRestString += ` | ${returnRestAttributes(attributesDictionary[attrKey])}`
 
             }
             else{
+                // console.log(attrKey)
                 if(attrKey === EMOTION_IPN || attrKey === EMOTION_EPN)
-                    greetingNonverbalEmotion = entryParameter[attrKey]
+                    greetingNonverbalEmotion = attributesDictionary[attrKey]
                 else if(attrKey === EMOTION_EON || attrKey === EMOTION_ION)
-                    responseNonverbalEmotion = entryParameter[attrKey]
+                    responseNonverbalEmotion = attributesDictionary[attrKey]
                 else if(attrKey === EMOTION_EOV || attrKey === EMOTION_IOV)
-                    responseVerbalEmotion = entryParameter[attrKey]
+                    responseVerbalEmotion = attributesDictionary[attrKey]
                 else if(attrKey === EMOTION_IPV || attrKey === EMOTION_EPV)
-                    greetingVerbalEmotion = entryParameter[attrKey]
+                    greetingVerbalEmotion = attributesDictionary[attrKey]
                 else if(attrKey === DESCRIPTION_IPN || attrKey === DESCRIPTION_EPN)
-                    greetingNonverbalDescription = entryParameter[attrKey]
+                    greetingNonverbalDescription = attributesDictionary[attrKey]
                 else if(attrKey === DESCRIPTION_EON || attrKey === DESCRIPTION_ION)
-                    responseNonverbalDescription = entryParameter[attrKey]
+                    responseNonverbalDescription = attributesDictionary[attrKey]
                 else if(attrKey === DESCRIPTION_EOV || attrKey === DESCRIPTION_IOV)
-                    responseVerbalDescription = entryParameter[attrKey]
+                    responseVerbalDescription = attributesDictionary[attrKey]
                 else if(attrKey === DESCRIPTION_IPV || attrKey === DESCRIPTION_EPV)
-                    greetingVerbalDescription = entryParameter[attrKey]
-            }
-            }
-            if(greetingFlag){
-                nonverbalDescritpion = changeUnknownValues(greetingNonverbalDescription)
-                nonverbalEmotion = changeUnknownValues(greetingNonverbalEmotion)
-                verbalDescription = changeUnknownValues(greetingVerbalDescription)
-                verbalEmotion = changeUnknownValues(greetingVerbalEmotion)
-            }
-            else{
-                nonverbalDescritpion = changeUnknownValues(responseNonverbalDescription)
-                nonverbalEmotion = changeUnknownValues(responseNonverbalEmotion)
-                verbalDescription = changeUnknownValues(responseVerbalDescription)
-                verbalEmotion = changeUnknownValues(responseVerbalEmotion)
+                    greetingVerbalDescription = attributesDictionary[attrKey]
             }
         }
-        if (restString !== ""){
-            restString = rest + restString + "</p>"
-    }
-    return [verbalDescription, verbalEmotion, nonverbalDescritpion, nonverbalEmotion, restString]
+                gNonverbalDescritpion = changeUnknownValues(greetingNonverbalDescription)
+                gNonverbalEmotion = changeUnknownValues(greetingNonverbalEmotion)
+                gVerbalDescription = changeUnknownValues(greetingVerbalDescription)
+                gVerbalEmotion = changeUnknownValues(greetingVerbalEmotion)
+
+                rNonverbalDescritpion = changeUnknownValues(responseNonverbalDescription)
+                rNonverbalEmotion = changeUnknownValues(responseNonverbalEmotion)
+                rVerbalDescription = changeUnknownValues(responseVerbalDescription)
+                rVerbalEmotion = changeUnknownValues(responseVerbalEmotion)
+            
+        }
+    if (rRestString !== "")
+        rRestString = rest + rRestString + "</p>"
+    if (gRestString !== "")
+        gRestString = rest + gRestString + "</p>"
+    
+    return [
+        gVerbalDescription, 
+        gVerbalEmotion, 
+        gNonverbalDescritpion, 
+        gNonverbalEmotion, 
+        rVerbalDescription, 
+        rVerbalEmotion, 
+        rNonverbalDescritpion, 
+        rNonverbalEmotion, 
+        rRestString,
+        gRestString
+    ]
 }
 
 function returnCardGreeting(entryParameter, invocation){
@@ -448,16 +386,6 @@ function returnCardHtml(entryParameter, invocation, flags){
     attrString = returnCardAttribute(nvDescritpion, nvEmotion, vDescription, vEmotion)
     responseHtml = responseHtml + attrString + rest;
     return [greetingHtml, responseHtml]
-}
-
-function returnIfMatch(entryParameter, searchData, greetingAttr){
-    htmlString = ""
-    if(typeof entryParameter !== UNDEFINED && typeof entryParameter[greetingAttr] !== UNDEFINED){
-        if(entryParameter[greetingAttr].includes(searchData) || searchData === ""){
-            return `<h5 class="card-title" id="header-match">${returnBoldAttr(entryParameter[greetingAttr]).replace(":", "")}</h5><hr>`
-        }
-    }
-    return false
 }
 
 function addInvocations(entry, searchData){
@@ -722,6 +650,7 @@ let usedKeys = []
 
 function addListeners(key){
     $(`#${key}`).on('click', function(){
+
         if($(`#${key}-small`).css("display") === "none"){
             $(`#${key}-small`).css("display", "block")
             $(`#${key}-large`).css("display", "none")
@@ -734,79 +663,172 @@ function addListeners(key){
     })
 }
 
-function search(){
-    const searchData = $("#main-search-input").val()
-    $("#dictionary-content").contents().remove()
-    let data = attributeSearch()
+const ATTRS = ["opis_iov_ostalo", 
+"emocija_ion", 
+"prostor", 
+"emocija_eon", 
+"opis_eon_ostalo", 
+"emocija_ipv", 
+"emocija_epn", 
+"opis_ion_ostalo", 
+"vrijeme", 
+"datum", 
+"opis_eov_ostalo", 
+"opis_ion", 
+"situacijski_kontekst", 
+"emocija_eov", 
+"opis_iov", 
+"opis_ipn", 
+"entryID", 
+"autor_upisa", 
+"sudionik2", 
+"zamjena_sudionika", 
+"sudionik1", 
+"opis_epv_ostalo", 
+"opis_ipv", 
+"emocija_ipn",
+"opis_ipv_ostalo", 
+"emocija_epv", 
+"opis_eon", 
+"opis_epv", 
+"opis_epn", 
+"opis_ipn_ostalo", 
+"emocija_iov", 
+"opis_epn_ostalo", 
+"opis_eov"]
 
+function search(data){
     let index = 0
+
+    let gVerbalDescription = ""
+    let gVerbalEmotion = ""
+    let gNonverbalDescritpion = ""
+    let gNonverbalEmotion = ""
+    let rVerbalDescription = ""
+    let rVerbalEmotion = ""
+    let rNonverbalDescritpion = ""
+    let rNonverbalEmotion =""
+    let rRestString = ""
+    let gRestString = ""
     for(key in data){
-        let html = ''
-        let footer = ''
-        let author = data[key]['autor_upisa']
+        const element = data[key]
+        const attr = JSON.parse(element['attrs'])
+        let attrs = {}
+        for(key in attr){
+            attrKey = attr[key][0]
+            attrs[attrKey] = attr[key][1]
+        }
+
+        let author = attrs['autor_upisa']
+        let type = ""
         if(typeof author === UNDEFINED)
             author = "Nepoznato"
 
-        invocationGreeting = data[key][INVOCATION_GREETING]
-        invocationResponse = data[key][INVOCAITON_RESPONSE]
-        exvocationGreeting = data[key][EXVOCATION_GREETING]
-        exvocationResponse = data[key][EXVOCATION_RESPONSE]
-        
-        invocationGreetingMatch = returnIfMatch(invocationGreeting, searchData, GREETING)
-        invocationResponseMatch = returnIfMatch(invocationResponse, searchData, RESPONSE)
-        exvocationGreetingMatch = returnIfMatch(exvocationGreeting, searchData, GREETING)
-        exvocationResponseMatch = returnIfMatch(exvocationResponse, searchData, RESPONSE)
-        
-        if(invocationGreetingMatch || invocationResponseMatch || exvocationGreetingMatch ||exvocationResponseMatch){
-            let type = ""
-            html = HTML_CARD_HEADER.replace("$$", `${key}-small`)
-            if(invocationGreetingMatch){
-                type = "INVOKACIJA"
-                if(exvocationGreetingMatch || exvocationResponseMatch)
-                    type = "INVOKACIJA | EKSVOKACIJA"
-                html += invocationGreetingMatch
-            }
-            else if(invocationResponseMatch){
-                type = "INVOKACIJA"
-                if(exvocationGreetingMatch || exvocationResponseMatch)
-                    type = "INVOKACIJA | EKSVOKACIJA"
-                html += invocationResponseMatch
-            }
-            else if(exvocationGreetingMatch){
-                type = "EKSVOKACIJA"
-                html += exvocationGreetingMatch
-            }
-            else if(exvocationResponseMatch){
-                type = "EKSVOKACIJA"
-                html += exvocationResponseMatch
-            }
-            
-            footer = `
-            <small class="text-muted">${type} | ${data[key]["prostor"]} | ${data[key]["datum"]} | ${data[key]["vrijeme"]}</small>
+        const isInvocation = element['invocation_match']
+        const isExvocation = element['exvocation_match']
+
+        // ovdje nadodati exv inv pozdrave u html
+        if(isInvocation && isExvocation)
+            type = "INVOKACIJA | EKSVOKACIJA"
+        else if(isExvocation)
+            type = "EKSVOKACIJA"
+        else 
+            type = "INVOKACIJA"
+
+        entityId = attrs["entryID"]
+        firstMatch = element["first_match"]
+        let html = HTML_CARD_HEADER.replace("$$", `${entityId}-small`)
+        html += `<h5 class="card-title" id="header-match">${returnBoldAttr(firstMatch).replace(":", "")}</h5><hr>`
+
+        datum = changeUnknownValues(attrs['datum'])
+        vrijeme = changeUnknownValues(attrs['vrijeme'])
+        prostor = changeUnknownValues(attrs['prostor'])
+        kontekst = changeUnknownValues(attrs['situacijski_kontekst'])
+
+        const footer = `
+            <small class="text-muted">${type} | ${prostor} | ${datum} | ${vrijeme}</small><br>
+            <small class="text-muted">SITUACIJSKI KONTEKST: ${kontekst}</small>
             <div class="card-footer">
                 <small class="text-muted">Autor: ${author}</small>
             </div>`
-            html += footer
-        }
-
-        if(html !== ""){
+        html += footer
             
-            [greeting, response] = returnCardHtml(data[key], true, [INVOCATION_GREETING, INVOCAITON_RESPONSE])
-            const invocationData = `<h4>Invokacija:</h4>${greeting+response}`;
-            [greeting, response] = returnCardHtml(data[key], false, [EXVOCATION_GREETING, EXVOCATION_RESPONSE])
-            const exvocationData = `<h4>Eksvokacija:</h4>${greeting+response}`;
+        let firstParticipant = attrs['sudionik1']
+        let secondParticipant = attrs['sudionik2']
 
-            if (index%2 === 0){
-                index += 1
-                $("#dictionary-content").append(`<div class="row" id="row_${index}"><div class="col-sm-6"><div class="card bg-light mb-3" id="${key}">${html}</div><div class="card-body large" id="${key}-large">${invocationData}${exvocationData}${footer}</div></div></div></div>`)
-                addListeners(key)
-            }
-            else{
-                $(`#row_${index}`).append(`<div class="col-sm-6"><div class="card bg-light mb-3" id="${key}">${html}</div><div class="card-body large" id="${key}-large">${invocationData}${exvocationData}${footer}</div></div></div>`)
-                addListeners(key)
-                index += 1
+        greeting = element['inv_greeting']
+        response = element['inv_response']
+        invGreetingElement = `<h5 class="card-title"><span class='notbold'>${firstParticipant}:</span> ${greeting}</h5><hr>`
+        invResponseElement = `<h5 class="card-title"><span class='notbold'>${secondParticipant}:</span> ${response}</h5><hr>`
+
+        const changeParticipants = (typeof attrs['zamjena_sudionika'] !== UNDEFINED && attrs['zamjena_sudionika'].toLowerCase() === "da") ? true : false
+        
+        greeting = element['exv_greeting']
+        response = element['exv_response']
+        
+        if(changeParticipants){
+            tmp = firstParticipant
+            firstParticipant = secondParticipant
+            secondParticipant = tmp
+        }
+
+        exvGreetingElement = `<h5 class="card-title"><span class='notbold'>${firstParticipant}:</span> ${greeting}</h5><hr>`
+        exvResponseElement = `<h5 class="card-title"><span class='notbold'>${secondParticipant}:</span> ${response}</h5><hr>`
+
+        const invAttrs = {}
+        const exvAttrs = {}
+        for(attrKey in attrs){
+            if(typeof attrKey.split("_")[1] !== UNDEFINED){
+                if(attrKey.split("_")[1].includes("e"))
+                    exvAttrs[attrKey] = attrs[attrKey]
+                else
+                    invAttrs[attrKey] = attrs[attrKey]
             }
         }
+
+        [gVerbalDescription, 
+            gVerbalEmotion, 
+            gNonverbalDescritpion, 
+            gNonverbalEmotion, 
+            rVerbalDescription, 
+            rVerbalEmotion, 
+            rNonverbalDescritpion, 
+            rNonverbalEmotion,      
+            rRestString,
+            gRestString] = returnCardAttrs(invAttrs)
+
+        greetingHtml = returnCardAttribute(gNonverbalDescritpion, gNonverbalEmotion, gVerbalDescription, gVerbalEmotion)
+        responseHtml = returnCardAttribute(rNonverbalDescritpion, rNonverbalEmotion, rVerbalDescription, rVerbalEmotion)
+        greeting = invGreetingElement + greetingHtml + gRestString
+        response = invResponseElement + responseHtml + rRestString
+        const invocationData = `<h4>Invokacija:</h4>${greeting+response}`;
+
+        [gVerbalDescription, 
+            gVerbalEmotion, 
+            gNonverbalDescritpion, 
+            gNonverbalEmotion, 
+            rVerbalDescription, 
+            rVerbalEmotion, 
+            rNonverbalDescritpion, 
+            rNonverbalEmotion,      
+            rRestString,
+            gRestString] = returnCardAttrs(exvAttrs)
+
+        greetingHtml = returnCardAttribute(gNonverbalDescritpion, gNonverbalEmotion, gVerbalDescription, gVerbalEmotion)
+        responseHtml = returnCardAttribute(rNonverbalDescritpion, rNonverbalEmotion, rVerbalDescription, rVerbalEmotion)
+        greeting = exvGreetingElement + greetingHtml + gRestString
+        response = exvResponseElement + responseHtml + rRestString
+        const exvocationData = `<h4>Eksvokacija:</h4>${greeting+response}`;
+
+        if (index%2 === 0){
+            $("#dictionary-content").append(`<div class="row" id="row_${index}"><div class="col-sm-6"><div class="card bg-light mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div></div>`)
+            addListeners(entityId)
+        }
+        else{
+            $(`#row_${index-1}`).append(`<div class="col-sm-6"><div class="card bg-light mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div>`)
+            addListeners(entityId)
+        }
+        index += 1
     } 
     let notify = new Notification()
     if(index === 0){
@@ -825,12 +847,45 @@ function search(){
     }
 }
 
-$("#main-search-input").on('keypress',function(e) {
-    if(e.which == 13) {
-        $("#divider").css("display", "inline")
-        search();
+function callSearchFunction(searchData, searchAttrs, searchType){
+    $.ajax({
+        url: "/search",
+        type: 'POST',
+        dataType: 'json',
+        data: {search_string: searchData, search_params: JSON.stringify(searchAttrs), search_type: searchType}
+    }).done((data) => {
+        search(data)
+    $.ajax({
+        url: "/download"
+    }).done((data) => {
+        // localStorage.setItem("attr", JSON.stringify(data))
+    })
+    })
+}
+
+function createNewSearch(){
+    $("#dictionary-content").empty()
+    $("#divider").css("display", "inline")
+    const searchData = $("#main-search-input").val()
+    let searchAttrs = {}
+    let searchType = 1 // 1 = advanced, 0 = basic
+    for(button in ACTIVE_BUTTONS){
+        if(ACTIVE_BUTTONS[button]){
+            const buttonId = button.split("-button")[0]
+            const inputValue = $(`#${buttonId}-input`).val()
+            let attr = [buttonId]
+            
+            if(BASIC_ATTR_SEARCH_BUTTONS.includes(buttonId)){
+                attr = DICTIONARY_BASIC_ATTRS[buttonId]
+                searchType = 0
+            }
+                
+            for(a in attr)
+                searchAttrs[attr[a]] = inputValue
+        }
     }
-});
+    callSearchFunction(searchData, searchAttrs, searchType)
+}
 
 function addButtonListener(id){
     ACTIVE_BUTTONS[id] = false
@@ -850,11 +905,17 @@ function addButtonListener(id){
     inputId = id.replace("button", "input")
     $(`#${inputId}`).on('keypress',function(e) {
         if(e.which === 13) {
-            $("#divider").css("display", "inline")
-            search();
+            createNewSearch()
         }
     });
 }
+
+// Povecava sve no teba jos gumbe, naslove.
+$("#test-btn").on('click', () =>{
+    var current_size = $("body").css("font-size");
+    console.log(current_size)
+    $("body").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+})
 
 $("#advanced-button").on('click', ()=>{
     if(ADVANCED_SEARCH){
@@ -863,9 +924,11 @@ $("#advanced-button").on('click', ()=>{
         $("#advanced").css("display", "none")
         $("#inv-exv").css("display", "none")
         $("#basic-advanced").css("display", "inline")
+        $("#advanced-button").text("Koristi napredno pretraživanje")
         ADVANCED_SEARCH = false
     }
     else{
+        $("#advanced-button").text("Koristi jednostavno pretraživanje")
         $("#inv-exv").css("display", "")
         $("#advanced-button").css("background-color", DARK_COLOR)
         $("#advanced-button").css("color", LIGHT_COLOR)
@@ -910,13 +973,19 @@ $("#advanced-button").on('click', ()=>{
             htmlString = ""
             key = "ostalo"
             htmlString += `<div class="input-group mb-3" id="${key}-div">
-                        <button class="btn btn-outline-secondary" type="button" id="${key}-button-advanced">${key}</button>
-                        <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
+                            <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Odaberi tip</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownType">
+                                <a class="dropdown-item" id="inv-drop" href="#">Invokacija</a>
+                                <a class="dropdown-item" id="exv-drop" href="#">Eksvokacija</a>
+                                <a class="dropdown-item" id="inv-exv-drop" href="#">Invokacija i Eksvokacija</a>
+                            </div>
+                        </div>
                     </div>`
             $(`#${index-1}-row`).append(htmlString)
             addButtonListener("ostalo-button-advanced")
             $("#advanced").css("display", "inline")
-        
+            setDropdownListeners()
             ADVANCED_SET = true
             ADVANCED_SEARCH = true
         }
@@ -925,38 +994,28 @@ $("#advanced-button").on('click', ()=>{
 
 })
 
-$("#search-button").on('click', function (){
-    
-    $("#divider").css("display", "inline")
-    const searchData = $("#main-search-input").val()
-    let searchAttrs = {}
-    let searchType = 1 // 1 = advanced, 0 = basic
-    for(button in ACTIVE_BUTTONS){
-        if(ACTIVE_BUTTONS[button]){
-            const buttonId = button.split("-button")[0]
-            const inputValue = $(`#${buttonId}-input`).val()
-            let attr = [buttonId]
-            
-            if(BASIC_ATTR_SEARCH_BUTTONS.includes(buttonId)){
-                attr = DICTIONARY_BASIC_ATTRS[buttonId]
-                searchType = 0
-            }
-                
-            for(a in attr)
-                searchAttrs[attr[a]] = inputValue
-        }
-    }
-    console.log(searchAttrs)
-    $.ajax({
-        url: "/search",
-        type: 'POST',
-        dataType: 'json',
-        data: {search_string: searchData, search_params: JSON.stringify(searchAttrs), search_type: searchType}
-    }).done((data) => {
-        // localStorage.setItem("data", JSON.stringify(data
-        l = JSON.parse(data[0]["attrs"])
-        console.log(l)
+function setDropdownListeners(){
+    $("#inv-drop").on('click', () =>{
+        $('#dropdownType').text("Invokacija")
+        $('#dropdownType').attr('value', 'inv')
     })
+    $("#exv-drop").on('click', () =>{
+        $('#dropdownType').text("Eksvokacija")
+        $('#dropdownType').attr('value', 'exv')
+    })
+    $("#inv-exv-drop").on('click', () =>{
+        $('#dropdownType').text("Invokacija i Eksvokacija")
+        $('#dropdownType').attr('value', 'inv-exv')
+    })
+}
 
-    search();
+
+$("#main-search-input").on('keypress',function(e) {
+    if(e.which === 13) {
+        createNewSearch()
+    }
+});
+
+$("#search-button").on('click', function (){
+    createNewSearch()    
 })

@@ -3,6 +3,7 @@ import json
 from .xml_reader import main, return_entries
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
+from fpdf import FPDF
 
 # cmd
 # set FLASK_APP=flaskr
@@ -10,6 +11,9 @@ from werkzeug.utils import secure_filename
 # flask run
 
 _DATA =  xml_reader.return_entries()
+DATA_USED = []
+CURRENT_SEARCH = None
+CURRENT_PARAMS = None
 
 class SetEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -73,10 +77,16 @@ def create_app(test_config=None):
     @app.route("/search", methods=['POST'])
     def return_search_data():
     # Return data depending on search parameters
+        global DATA_USED
+        global CURRENT_SEARCH
+        global CURRENT_PARAMS
+        _CURRENT_PARAMS = []
+        _DATA_USED = []
         search_string = request.form['search_string']
         search_params = json.loads(request.form['search_params'], encoding="utf-8")
         search_type = request.form['search_type']
         basic = False
+        CURRENT_SEARCH = search_string
 
         if search_type == '0':
             basic = True 
@@ -87,14 +97,23 @@ def create_app(test_config=None):
             "sudionik": []
         }
 
+        rest_attributes = {}
+
         if basic:
             for key in search_params:
+                _CURRENT_PARAMS.append(f"{key}: {search_params[key]} | ")
+
                 if "emocija" in key:
                     or_attributes['emocije'].append(key)
-                elif "sudionik" in key:
+                elif "sudionik" in key and key is not "zamjena_sudionika":
                     or_attributes['sudionik'].append(key)
                 elif "opis" in key:
                     or_attributes['opis'].append(key)
+                else:
+                    rest_attributes[key] = search_params[key]
+        else:
+            for key in search_params:
+                rest_attributes[key] = search_params[key]
 
         results = []
         index = 0
@@ -113,16 +132,17 @@ def create_app(test_config=None):
                             or_match = False
                             value = search_params[or_attributes[attribute_section][0]]
                             for attribute in or_attributes[attribute_section]:
-                                if value in key.attributes[attribute]:
-                                    or_match = True 
-                                    break
+                                if attribute in key.attributes.keys():
+                                    if value in key.attributes[attribute]:
+                                        or_match = True 
+                                        break
                             if not or_match:
                                 match = False
                                 break
 
                 if match:
                     # If search is not basic
-                    for search_attribute in search_params:
+                    for search_attribute in rest_attributes:
                         try:
                             if search_params[search_attribute] not in key.attributes[search_attribute]:
                                 match = False
@@ -130,6 +150,19 @@ def create_app(test_config=None):
                         except KeyError:
                             match = False
                     
+                invocation_match = search_string in key.invocation_elements.response or search_string in key.invocation_elements.greeting
+                exvocation_match = search_string in key.exvocation_elements.response or search_string in key.exvocation_elements.greeting
+
+                if invocation_match:
+                    if search_string in key.invocation_elements.greeting:
+                        first_match = key.invocation_elements.greeting
+                    elif search_string in key.invocation_elements.response:
+                        first_match = key.invocation_elements.response
+                elif exvocation_match:
+                    if search_string in key.exvocation_elements.greeting:
+                        first_match = key.exvocation_elements.greeting
+                    elif search_string in key.exvocation_elements.response:
+                        first_match = key.exvocation_elements.response
 
                 if match:
                     dict = {
@@ -137,17 +170,27 @@ def create_app(test_config=None):
                         "inv_response": key.invocation_elements.response,
                         "exv_greeting": key.exvocation_elements.greeting,
                         "exv_response": key.exvocation_elements.response,
-                        "attrs": json.dumps(list(key.attributes.items())),
+                        "attrs": json.dumps(list(key.attributes.items()), ensure_ascii=False),
+                        "exvocation_match": exvocation_match,
+                        "invocation_match": invocation_match,
+                        "first_match": first_match
                         }
+                    _DATA_USED.append(dict)
                     results.append(dict)
                     index +=1
-
-        print(index)
-        # print(results)
+        DATA_USED = _DATA_USED
+        CURRENT_PARAMS = _CURRENT_PARAMS
         return json.dumps(results, cls=SetEncoder, sort_keys=True, ensure_ascii=False)
+
+    
+    @app.route("/download")
+    def download_data():
+        global DATA_USED
+        global CURRENT_SEARCH 
+        global CURRENT_PARAMS
+        return "Kull"
 
     @app.route("/")
     def starting_page():
-        # print(_DATA)
         return render_template('home.html')
     return app
