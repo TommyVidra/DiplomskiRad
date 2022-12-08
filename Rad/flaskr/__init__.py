@@ -98,6 +98,13 @@ def create_app(test_config=None):
         }
 
         rest_attributes = {}
+        search_scene = None
+
+        try:
+            search_scene = search_params["search_scene"]
+            del search_params["search_scene"]
+        except Exception:
+            print("Nema ga")
 
         if basic:
             for key in search_params:
@@ -121,10 +128,10 @@ def create_app(test_config=None):
         for key in _DATA:
             match = True
             
-            if search_string in key.invocation_elements.greeting or \
-            search_string in key.exvocation_elements.greeting or \
-            search_string in key.invocation_elements.response or \
-            search_string in key.exvocation_elements.response:
+            if search_string.lower() in key.invocation_elements.greeting.lower() or \
+            search_string.lower() in key.exvocation_elements.greeting.lower() or \
+            search_string.lower() in key.invocation_elements.response.lower() or \
+            search_string.lower() in key.exvocation_elements.response.lower():
 
                 if basic:
                     for attribute_section in or_attributes:
@@ -150,20 +157,25 @@ def create_app(test_config=None):
                         except KeyError:
                             match = False
                     
-                invocation_match = search_string in key.invocation_elements.response or search_string in key.invocation_elements.greeting
-                exvocation_match = search_string in key.exvocation_elements.response or search_string in key.exvocation_elements.greeting
-
+                invocation_match = search_string.lower() in key.invocation_elements.response.lower() or search_string.lower() in key.invocation_elements.greeting.lower()
+                exvocation_match = search_string.lower() in key.exvocation_elements.response.lower() or search_string.lower() in key.exvocation_elements.greeting.lower()
+                if not basic and search_scene is not None:
+                    if search_scene == 'inv-exv' and invocation_match == False and exvocation_match == False:
+                        match = False
+                    elif (search_scene == 'inv' and invocation_match == False) or (search_scene == 'exv' and exvocation_match == False):
+                        match = False
+                
                 if invocation_match:
-                    if search_string in key.invocation_elements.greeting:
+                    if search_string.lower() in key.invocation_elements.greeting.lower():
                         first_match = key.invocation_elements.greeting
-                    elif search_string in key.invocation_elements.response:
+                    elif search_string.lower() in key.invocation_elements.response.lower():
                         first_match = key.invocation_elements.response
                 elif exvocation_match:
-                    if search_string in key.exvocation_elements.greeting:
+                    if search_string.lower() in key.exvocation_elements.greeting.lower():
                         first_match = key.exvocation_elements.greeting
-                    elif search_string in key.exvocation_elements.response:
+                    elif search_string.lower() in key.exvocation_elements.response.lower():
                         first_match = key.exvocation_elements.response
-
+                        
                 if match:
                     dict = {
                         "inv_greeting": key.invocation_elements.greeting,

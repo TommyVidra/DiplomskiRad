@@ -13,7 +13,7 @@
 <eksvokacija>
 <eksvokacijski_pozdrav>
 <ep_verbalni opis_epv='0' opis_epv_ostalo='komb: epv2, epv9' emocija_epv='sretno, pozitivno'>Aj bok, uživaj!</ep_verbalni>
-<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: enp7, epn5' emocija_epn='sreća'/>
+<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: epn7, epn5' emocija_epn='sreća'/>
 </eksvokacijski_pozdrav>
 <eksvokacijski_odzdrav>
 <eo_verbalni opis_eov='0' opis_eov_ostalo='komb: eov9, eov3, eov2' emocija_eov='sreća'>Aj, ćao, vidimo se!</eo_verbalni>
@@ -2023,7 +2023,7 @@
 <ep_neverbalni opis_epn='mahanje' opis_epn_ostalo='' emocija_epn='užurbano, iznenađeno (jer nisam očekivao da će razgovor toliko potrajati, a trebao sam negdje drugdje ići)'/>
 </eksvokacijski_pozdrav>
 <eksvokacijski_odzdrav>
-<eo_verbalni opis_eov='0' opis_eov_ostalo='evo9, poziv na idući susret (više konvencija &quot;vidimo se&quot;)' emocija_eov='zadovoljno, opušteno'>Ajde, ajde. Vidimo se, svakako! </eo_verbalni>
+<eo_verbalni opis_eov='0' opis_eov_ostalo='eov9, poziv na idući susret (više konvencija &quot;vidimo se&quot;)' emocija_eov='zadovoljno, opušteno'>Ajde, ajde. Vidimo se, svakako! </eo_verbalni>
 <eo_neverbalni opis_eon='0' opis_eon_ostalo='eon4, eon5, blagi smiješak' emocija_eon='zadovoljno, opušteno'/>
 </eksvokacijski_odzdrav>
 </eksvokacija>
@@ -2374,7 +2374,7 @@
 <ep_neverbalni opis_epn='mahanje' emocija_epn='veselo'/>
 </eksvokacijski_pozdrav>
 <eksvokacijski_odzdrav>
-<eo_verbalni opis_eov='0' opis_eov_ostalo='komb: eov2, evo7' emocija_eov='iskreno'>Ajde, vidimo se, čujemo se, pozdravi svoje!</eo_verbalni>
+<eo_verbalni opis_eov='0' opis_eov_ostalo='komb: eov2, eov7' emocija_eov='iskreno'>Ajde, vidimo se, čujemo se, pozdravi svoje!</eo_verbalni>
 <eo_neverbalni opis_eon='0' opis_eon_ostalo='slanje puse, mahanje' emocija_eon='veselo'/>
 </eksvokacijski_odzdrav>
 </eksvokacija>
@@ -25748,7 +25748,7 @@
 <eksvokacija>
 <eksvokacijski_pozdrav>
 <ep_verbalni opis_epv='najavljivanje kraja susreta' emocija_epv='sretno'>Ze zbilja idem. Vidimo se. </ep_verbalni>
-<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: enp5, enp11' emocija_epn='sretno'/>
+<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: epn5, epn11' emocija_epn='sretno'/>
 </eksvokacijski_pozdrav>
 <eksvokacijski_odzdrav>
 <eo_verbalni opis_eov='pozdravljanje sugovornika' emocija_eov='sretno'>Ajde, bokić Tinček!</eo_verbalni>

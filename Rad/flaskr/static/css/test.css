@@ -1,3 +1,34 @@
+@font-face{
+    font-family: dislexia;
+    src: url("/static/fonts/OpenDyslexic-Regular.otf")
+}
+@font-face{
+    font-family: dislexia;
+    font-weight: bold;
+    src: url("/static/fonts/OpenDyslexic-Bold.otf")
+}
+
+:root{
+    --dyx-back-color: #EDD1B0;
+    --dyx-color: #213A82;
+    --dyx-dim-color: #4B6DD2;
+    /* --dyx-color: #0B132B; */
+    --dyx-h4-color: #3A506B;
+    --dyx-body-color: #F8EBDE;
+    --normal-dim-color: #6c757d;
+    --normal-back-color: #f8f9fa;
+    --normal-h4-color: #7C8FA2;
+
+}
+
+#dyx-btn{
+    font-family: dislexia;
+}
+
+small{
+    color: var(--normal-dim-color);
+}
+
 .div-input{
     width: 80%;
 }
@@ -22,6 +53,7 @@ p > span{
 }
 
 .card{
+    background-color: var(--normal-back-color);
     transition: transform .1s; /* Animation */
 }
 .card:hover {
@@ -77,4 +109,8 @@ p > span{
 }
 .dropdown-menu{
     width:100%
+}
+
+.card-body{
+    cursor: pointer;
 }

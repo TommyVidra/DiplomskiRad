@@ -4,6 +4,7 @@ let SEARCH_TYPE = 1
 let ADVANCED_SEARCH = false
 let ADVANCED_SET = false
 let ACTIVE_BUTTONS = {}
+let DYX_ACTIVE = false
 
 const NONCOMPLEX_ATTRS = ["autor", "sudionik","autor_upisa", "prostor", "datum", "vrijeme", "zamjena_sudionika", "sudionik1", "sudionik2", "situacijski_kontekst"]
 const BASIC_ATTR_SEARCH_BUTTONS = ["sudionik", "opis", "emocija", "autor", "kontekst"]
@@ -57,7 +58,7 @@ const REST_ATTRS = {
 }
 
 const HTML_CARD_HEADER = '<div class="card-body" id="$$">'
-const HTML_CARD_FOOTER = '<div class="card-footer"><small class="text-muted">Autor: $$</small></div></div>'
+const HTML_CARD_FOOTER = '<div class="card-footer"><small>Autor: $$</small></div></div>'
 const HTML_REST = '<p class="card-text"><span>ostalo</span>'
 
 
@@ -240,9 +241,9 @@ function returnInvocationCard(j, key){
             <div class="card-body" id="invocation">
                 ${greetingElement}
                 ${responseElement}
-                <small class="text-muted">INVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
+                <small >INVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
                 <div class="card-footer">
-                    <small class="text-muted">Autor: ${autor_upisa}</small>
+                    <small >Autor: ${autor_upisa}</small>
                 </div>
             </div>`
     return htmlString
@@ -501,9 +502,9 @@ function addInvocations(entry, searchData){
                     <div class="card-body" id="invocation">
                         ${greetingElement}
                         ${responseElement}
-                        <small class="text-muted">INVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
+                        <small >INVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
                         <div class="card-footer">
-                            <small class="text-muted">Autor: ${autor_upisa}</small>
+                            <small >Autor: ${autor_upisa}</small>
                         </div>
                     </div>`
         }
@@ -637,9 +638,9 @@ function addExvocations(j, key){
                     <div class="card-body" id="exvocation">
                         ${greetingElement}
                         ${responseElement}
-                        <small class="text-muted">EKSVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
+                        <small >EKSVOKACIJA | ${j[key]["prostor"]} | ${j[key]["datum"]} | ${j[key]["vrijeme"]}</small>
                         <div class="card-footer">
-                            <small class="text-muted">Autor: ${autor_upisa}</small>
+                            <small >Autor: ${autor_upisa}</small>
                         </div>
                     </div>`
     }
@@ -746,10 +747,10 @@ function search(data){
         kontekst = changeUnknownValues(attrs['situacijski_kontekst'])
 
         const footer = `
-            <small class="text-muted">${type} | ${prostor} | ${datum} | ${vrijeme}</small><br>
-            <small class="text-muted">SITUACIJSKI KONTEKST: ${kontekst}</small>
+            <small >${type} | ${prostor} | ${datum} | ${vrijeme}</small><br>
+            <small >SITUACIJSKI KONTEKST: ${kontekst}</small>
             <div class="card-footer">
-                <small class="text-muted">Autor: ${author}</small>
+                <small >Autor: ${author}</small>
             </div>`
         html += footer
             
@@ -802,7 +803,7 @@ function search(data){
         greeting = invGreetingElement + greetingHtml + gRestString
         response = invResponseElement + responseHtml + rRestString
         const invocationData = `<h4>Invokacija:</h4>${greeting+response}`;
-
+        
         [gVerbalDescription, 
             gVerbalEmotion, 
             gNonverbalDescritpion, 
@@ -821,11 +822,11 @@ function search(data){
         const exvocationData = `<h4>Eksvokacija:</h4>${greeting+response}`;
 
         if (index%2 === 0){
-            $("#dictionary-content").append(`<div class="row" id="row_${index}"><div class="col-sm-6"><div class="card bg-light mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div></div>`)
+            $("#dictionary-content").append(`<div class="row" id="row_${index}"><div class="col-sm-6"><div class="card mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div></div>`.replaceAll("Nepoznato", "[<em>Nepoznato</em>]").replaceAll("komb:", "").replaceAll("komb", ""))
             addListeners(entityId)
         }
         else{
-            $(`#row_${index-1}`).append(`<div class="col-sm-6"><div class="card bg-light mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div>`)
+            $(`#row_${index-1}`).append(`<div class="col-sm-6"><div class="card mb-3" id="${entityId}">${html}</div><div class="card-body large" id="${entityId}-large">${invocationData}${exvocationData}${footer}</div></div></div>`.replaceAll("Nepoznato", "[<em>Nepoznato</em>]").replaceAll("komb:", "").replaceAll("komb", ""))
             addListeners(entityId)
         }
         index += 1
@@ -862,15 +863,26 @@ function callSearchFunction(searchData, searchAttrs, searchType){
     })
     })
 }
-
+var waitForEl = function(selector, callback) {
+    if (jQuery(selector).length) {
+      callback();
+    } else {
+      setTimeout(function() {
+        waitForEl(selector, callback);
+      }, 100);
+    }
+  };
+  
 function createNewSearch(){
     $("#dictionary-content").empty()
     $("#divider").css("display", "inline")
     const searchData = $("#main-search-input").val()
     let searchAttrs = {}
     let searchType = 1 // 1 = advanced, 0 = basic
+    let activeButtons = 0
     for(button in ACTIVE_BUTTONS){
         if(ACTIVE_BUTTONS[button]){
+            activeButtons += 1
             const buttonId = button.split("-button")[0]
             const inputValue = $(`#${buttonId}-input`).val()
             let attr = [buttonId]
@@ -884,7 +896,25 @@ function createNewSearch(){
                 searchAttrs[attr[a]] = inputValue
         }
     }
+    if(activeButtons === 0 && $("#dropdownType").val() === ''){
+        searchType = 0
+        console.log("Kuraaac")
+    }
+    if(ADVANCED_SEARCH){
+        searchAttrs["search_scene"] = $("#dropdownType").val()
+    }
     callSearchFunction(searchData, searchAttrs, searchType)
+    // koristiti ce se za iskljucivanje animacije
+    waitForElm('.row').then((elm) => {
+        console.log(DYX_ACTIVE)
+    });
+    waitForEl(".card", () =>{
+        if(DYX_ACTIVE){
+            $(".card").css("background-color", "var(--dyx-back-color)");
+            $("h4").css("color", "var(--dyx-dim-color)");
+            $("small").css("color", "var(--dyx-dim-color)");
+        }
+    })
 }
 
 function addButtonListener(id){
@@ -902,7 +932,7 @@ function addButtonListener(id){
         }
     })
 
-    inputId = id.replace("button", "input")
+    inputId = `${id.split("button")[0]}input`
     $(`#${inputId}`).on('keypress',function(e) {
         if(e.which === 13) {
             createNewSearch()
@@ -910,11 +940,55 @@ function addButtonListener(id){
     });
 }
 
-// Povecava sve no teba jos gumbe, naslove.
-$("#test-btn").on('click', () =>{
-    var current_size = $("body").css("font-size");
-    console.log(current_size)
-    $("body").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+// Enlarges the font style of letters
+$("#plus-btn").on('click', () =>{
+    var current_size = $("div").css("font-size");
+    $("div").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+    current_size = $("p").css("font-size");
+    if(typeof current_size !== UNDEFINED)
+        $("p").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+    current_size = $("button").css("font-size");
+    $("button").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+    current_size = $("h4").css("font-size");
+    if(typeof current_size !== UNDEFINED)
+    $("h4").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+        current_size = $("h5").css("font-size");
+    
+    if(typeof current_size !== UNDEFINED)
+        $("h5").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+    current_size = $("input").css("font-size");
+    $("input").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
+})
+$("#minus-btn").on('click', () =>{
+    var current_size = $("div").css("font-size");
+    $("div").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+    current_size = $("p").css("font-size");
+    
+    if(typeof current_size !== UNDEFINED)
+        $("p").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+    current_size = $("button").css("font-size");
+    $("button").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+    current_size = $("h4").css("font-size");
+    if(typeof current_size !== UNDEFINED)
+        $("h4").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+    current_size = $("h5").css("font-size");
+    if(typeof current_size !== UNDEFINED)
+        $("h5").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+    current_size = $("input").css("font-size");
+    $("input").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
+})
+$("#dyx-btn").on('click', () =>{
+    DYX_ACTIVE = true
+    $("body").css("font-family", "dislexia");
+    $("body").css("color", "var(--dyx-color)");
+    $(".card").css("background-color", "var(--dyx-back-color)");
+    $("button").css("background-color", "var(--dyx-back-color)");
+    $("button").css("color", "var(--dyx-color)");
+    $("h4").css("color", "var(--dyx-dim-color)");
+    $("small").css("color", "var(--dyx-dim-color)");
+    $("body").css("background-color", "var(--dyx-body-color)")
+    $("input").css("background-color", "var(--dyx-body-color)")
+    $("input").css("border-color", "var(--dyx-color)")
 })
 
 $("#advanced-button").on('click', ()=>{
@@ -1019,3 +1093,23 @@ $("#main-search-input").on('keypress',function(e) {
 $("#search-button").on('click', function (){
     createNewSearch()    
 })
+
+function waitForElm(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
