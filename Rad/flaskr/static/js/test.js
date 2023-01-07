@@ -856,11 +856,6 @@ function callSearchFunction(searchData, searchAttrs, searchType){
         data: {search_string: searchData, search_params: JSON.stringify(searchAttrs), search_type: searchType}
     }).done((data) => {
         search(data)
-    $.ajax({
-        url: "/download"
-    }).done((data) => {
-        // localStorage.setItem("attr", JSON.stringify(data))
-    })
     })
 }
 var waitForEl = function(selector, callback) {
@@ -1092,6 +1087,14 @@ $("#main-search-input").on('keypress',function(e) {
 
 $("#search-button").on('click', function (){
     createNewSearch()    
+})
+
+$("#export-btn").on('click', function(){
+    $.ajax({
+        url: "/download"
+    }).done((data) => {
+        // localStorage.setItem("attr", JSON.stringify(data))
+    })
 })
 
 function waitForElm(selector) {

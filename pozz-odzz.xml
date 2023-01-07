@@ -13,7 +13,7 @@
 <eksvokacija>
 <eksvokacijski_pozdrav>
 <ep_verbalni opis_epv='0' opis_epv_ostalo='komb: epv2, epv9' emocija_epv='sretno, pozitivno' xml:space='preserve'>Aj bok, uživaj!</ep_verbalni>
-<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: enp7, epn5' emocija_epn='sreća'/>
+<ep_neverbalni opis_epn='0' opis_epn_ostalo='komb: epn7, epn5' emocija_epn='sreća'/>
 </eksvokacijski_pozdrav>
 <eksvokacijski_odzdrav>
 <eo_verbalni opis_eov='0' opis_eov_ostalo='komb: eov9, eov3, eov2' emocija_eov='sreća' xml:space='preserve'>Aj, ćao, vidimo se!</eo_verbalni>

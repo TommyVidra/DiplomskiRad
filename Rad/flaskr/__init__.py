@@ -1,7 +1,7 @@
 import os
 import json
 from .xml_reader import main, return_entries
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from werkzeug.utils import secure_filename
 from fpdf import FPDF
 
@@ -108,7 +108,7 @@ def create_app(test_config=None):
 
         if basic:
             for key in search_params:
-                _CURRENT_PARAMS.append(f"{key}: {search_params[key]} | ")
+                _CURRENT_PARAMS.append(f"{key}: {search_params[key]}, ")
 
                 if "emocija" in key:
                     or_attributes['emocije'].append(key)
@@ -192,6 +192,7 @@ def create_app(test_config=None):
                     index +=1
         DATA_USED = _DATA_USED
         CURRENT_PARAMS = _CURRENT_PARAMS
+
         return json.dumps(results, cls=SetEncoder, sort_keys=True, ensure_ascii=False)
 
     
@@ -200,7 +201,24 @@ def create_app(test_config=None):
         global DATA_USED
         global CURRENT_SEARCH 
         global CURRENT_PARAMS
-        return "Kull"
+        
+        font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static", "fonts", "PTSans-Regular.ttf")
+        bold_font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static", "fonts", "PTSans-Bold.ttf")
+        
+        pdf = FPDF()
+        pdf.add_page()
+
+        pdf.add_font("PTSans", "", font_path, uni=True)
+        pdf.add_font("PTSansBold", "", bold_font_path, uni=True)
+        pdf.set_font("PTSans", size=15)
+
+        pdf.multi_cell(200, 10, txt=f"Tekst pretraživanja: {CURRENT_SEARCH}")
+        pdf.multi_cell(200, 20, txt=f'Za attribute pretraživanja:\n {"".join(CURRENT_PARAMS)}')
+        
+        file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "Test.pdf")
+        pdf.output(file_path)
+
+        return send_file("Test.pdf", mimetype='application/pdf',as_attachment=True)
 
     @app.route("/")
     def starting_page():
