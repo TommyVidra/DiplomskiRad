@@ -12,13 +12,12 @@
     --dyx-back-color: #EDD1B0;
     --dyx-color: #213A82;
     --dyx-dim-color: #4B6DD2;
-    /* --dyx-color: #0B132B; */
     --dyx-h4-color: #3A506B;
     --dyx-body-color: #F8EBDE;
+    --normal-body-color: #fff;
     --normal-dim-color: #6c757d;
     --normal-back-color: #f8f9fa;
     --normal-h4-color: #7C8FA2;
-
 }
 
 body {font-family: "Raleway", sans-serif}
@@ -39,10 +38,25 @@ small{
 }
 
 #main-search-div{
-    width: 80%;
+    width: 95%;
     margin-top: 10px;
     text-align: center;
-    padding-left: 20%;
+    padding-left: 5%;
+}
+
+#div-mockup{
+    margin-top: 10px !important;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+#input-mockup{
+    width: 0px;
+    margin-left: 20%;
+    size: 0px;
+    flex: none;
+    border: none;
+    cursor: default;
 }
 
 #main-search-div > .btn:focus{
@@ -119,4 +133,13 @@ p > span{
 a > button{
   border-top-left-radius: 0px !important; 
   border-bottom-left-radius: 0px !important;
+}
+button, a{    
+    transition: transform .5s ease;
+    z-index: 1;
+    /* background-color: var(--normal-back-color) ; */
+}
+button:hover, a:hover {
+    z-index: 100;
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

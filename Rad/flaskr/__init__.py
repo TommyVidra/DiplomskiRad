@@ -358,4 +358,8 @@ def create_app(test_config=None):
     @app.route("/korpus")
     def starting_page():
         return render_template('home.html')
+
+    @app.route("/o_radu")
+    def about_us():
+        return render_template("about_us.html")
     return app

@@ -1,18 +1,25 @@
-
+<head>
+<title>Korpus</title>
+<link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
+</head>
 <html>    
     <body>
         <div>
             <!-- <label for="site-search">Search the site:</label> -->
             <!-- <input type="search" id="dictionary-search" name="q" placeholder="unos pozdrava">
             <button id="search-button">Pretraži</button> -->
+            <div class="input-group mb-3" id="div-mockup" >
+                <input id="input-mockup" type="text" class="form-control" placeholder="">
+                <button id="plus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
+                <button id="minus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
+                <button id="dyx-btn" class="btn btn-outline-secondary" type="button"><span>DYX</span></button>
+                <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Saznaj više</span></button></a>
+                <a id="pdf-download" href="{{ url_for('.download_data') }}"><button id="export-btn" class="btn btn-outline-secondary" type="button" disabled><span>Izvezi u PDF</span></button></a>
+            </div>
             <div class="input-group mb-3" id="main-search-div">
                 <button class="btn btn-outline-secondary" type="button" id="advanced-button">Koristi napredno pretraživanje</button>
                 <input id="main-search-input" type="text" class="form-control" placeholder="Tekst za pretraživanje" aria-label="main-search" aria-describedby="main-search">
                 <button id="search-button" class="btn btn-outline-secondary" type="button" id="main-search"><i class="fa fa-search"></i></button>
-                <button id="plus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
-                <button id="minus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
-                <button id="dyx-btn" class="btn btn-outline-secondary" type="button"><span>DYX</span></button>
-                <a id="pdf-download" href="{{ url_for('.download_data') }}"><button id="export-btn" class="btn btn-outline-secondary" type="button" disabled><span>Izvezi u PDF</span></button></a>
             </div>
             <div id="advanced">
                 <hr>

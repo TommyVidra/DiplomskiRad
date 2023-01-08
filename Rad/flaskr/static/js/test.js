@@ -975,8 +975,8 @@ $("#minus-btn").on('click', () =>{
     current_size = $("input").css("font-size");
     $("input").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
 })
-$("#dyx-btn").on('click', () =>{
-    DYX_ACTIVE = true
+
+function dyxTransform(){
     $("body").css("font-family", "dislexia");
     $("body").css("color", "var(--dyx-color)");
     $(".card").css("background-color", "var(--dyx-back-color)");
@@ -987,6 +987,32 @@ $("#dyx-btn").on('click', () =>{
     $("body").css("background-color", "var(--dyx-body-color)")
     $("input").css("background-color", "var(--dyx-body-color)")
     $("input").css("border-color", "var(--dyx-color)")
+}
+
+function revertDyx(){
+    $("body").css("font-family", "Raleway");
+    $("body").css("color", "var(--normal-dim-color)");
+    $(".card").css("background-color", "var(--normal-back-color)");
+    $("button").css("background-color", "var(--normal-back-color)");
+    $("button").css("color", "var(--normal-dim-color)");
+    $("h4").css("color", "var(--normal-dim-color)");
+    $("small").css("color", "var(--normal-dim-color)");
+    $("body").css("background-color", "var(--normal-body-color)")
+    $("input").css("background-color", "var(--normal-body-color)")
+    $("input").css("border-color", "var(--normal-dim-color)")
+}
+
+$("#dyx-btn").on('click', () =>{
+    if(DYX_ACTIVE){
+        revertDyx()
+        $("#dyx-btn").text("DYX")
+        DYX_ACTIVE = false
+    }
+    else{
+        dyxTransform()
+        $("#dyx-btn").text("Izvorni prikaz")
+        DYX_ACTIVE = true
+    }
 })
 
 $("#advanced-button").on('click', ()=>{
@@ -1066,6 +1092,9 @@ $("#advanced-button").on('click', ()=>{
         }
         
     }
+    if(DYX_ACTIVE){
+        dyxTransform()
+    }
 
 })
 
@@ -1096,6 +1125,14 @@ $("#search-button").on('click', function (){
     createNewSearch()    
     $("#pdf-download").unbind('click')
 })
+
+// $("button, a").hover(function() {
+//     $(this).css("background-color", 'var(--normal-back-color)')
+//     $(this).css("color", 'var(--normal-dim-color)')
+//     }, function(){
+//         $(this).css("background-color", 'var(--normal-back-color)')
+//         $(this).css("color", 'var(--normal-dim-color)')
+// });
 
 function waitForElm(selector) {
     return new Promise(resolve => {

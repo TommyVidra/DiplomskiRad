@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Dobrodošli</title>
+<link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -21,7 +22,7 @@ button{
     transition: transform .5s ease;
 }
 button:hover {
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 .bgimg {
   background-image: url('/static/open_book.jpg');
@@ -51,7 +52,8 @@ button:hover {
         <p class="w3-large w3-center">Dobro došli na korpus pozdrav i odzdrava, korpus je sastavljen u sklopu kolegija --IME KOLEGIJA-- na Filozofskom fakultetu u zagrebu, dok je aplikacija narpavljena na Fakultetu elektrotehnike i računarstva</p>
         <p class="w3-large w3-center">Tim: Prof. Bernardina, Maja, Lobel, Prof. Željka Car i Tomek</p>
     </div>
-    <a href="{{ url_for('.starting_page') }}"><button class="btn btn-outline-secondary" type="button"><span>Pretraži korpus -></span></button></a>
+    <a href="{{ url_for('.starting_page') }}"><button class="btn btn-outline-secondary" type="button"><span>Pretraži korpus</span></button></a>
+    <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Saznaj više</span></button></a>
   </div>
 </div>
 
