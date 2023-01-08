@@ -12,7 +12,7 @@
                 <button id="plus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
                 <button id="minus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
                 <button id="dyx-btn" class="btn btn-outline-secondary" type="button"><span>DYX</span></button>
-                <button id="export-btn" class="btn btn-outline-secondary" type="button"><span>Izvoz podataka</span></button>
+                <a id="pdf-download" href="{{ url_for('.download_data') }}"><button id="export-btn" class="btn btn-outline-secondary" type="button" disabled><span>Izvezi u PDF</span></button></a>
             </div>
             <div id="advanced">
                 <hr>
@@ -37,6 +37,7 @@
         <script src="{{url_for('static', filename='js/notify.js')}}"></script>
         <script src="{{url_for('static', filename='js/utils.js')}}"></script>
         <script src="{{url_for('static', filename='js/test.js')}}"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </body>
 </html>

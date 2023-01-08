@@ -21,6 +21,7 @@
 
 }
 
+body {font-family: "Raleway", sans-serif}
 #dyx-btn{
     font-family: dislexia;
 }
@@ -75,11 +76,11 @@ p > span{
     display: none;
 }
 #advanced .input-group{
-    width: 20% !important
+    width: 25% !important
 }
 
 #basic-advanced .input-group{
-    width: 20% !important
+    width: 25% !important
 }
 
 #inv-exv{
@@ -113,4 +114,9 @@ p > span{
 
 .card-body{
     cursor: pointer;
+}
+
+a > button{
+  border-top-left-radius: 0px !important; 
+  border-bottom-left-radius: 0px !important;
 }

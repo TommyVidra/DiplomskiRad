@@ -15,6 +15,108 @@ DATA_USED = []
 CURRENT_SEARCH = None
 CURRENT_PARAMS = None
 
+KOMB_DICTIONARY = {
+    "ipv1": "pozdravna formula",
+    "ipv2": "pozdravna formula s vokativom",
+    "ipv3": "vokativ s pozdravnom formulom",
+    "ipv4": "pitanje s vokativom obraćanja",
+    "ipv5": "vokativ obraćanja s pitanjem",
+    "ipv6": "pozdrav s pitanjem",
+    "ipv7": "pitanje i poziv na druženje",
+    "ipv0": "Nepoznato",
+
+    "ipn1": "rukovanje",
+    "ipn2": "pružanje ruke",
+    "ipn3": "tapšanje po ramenu i sl.",
+    "ipn4": "kimanje glavom",
+    "ipn5": "mahanje",
+    "ipn6": "ljubljenje",
+    "ipn7": "grljenje",
+    "ipn8": "pusa u zraku",
+    "ipn9": "ignoriranje",
+    "ipn10": "daj pet",
+    "ipn11": "osmijeh ili smiješak",
+    "ipn12": "pozdrav šakom (šakica)",
+    "ipn13": "pozdrav kao pri obaranju ruke",
+    "ipn0": "Nepoznato",
+
+    "iov1": "odzdravna formula",
+    "iov2": "odzdravna formula s vokativom",
+    "iov3": "vokativ s odzdravnom formulom",
+    "iov4": "skretanje pozornosti na prisutnost uporabom prezentativa",
+    "iov5": "potvrda prisutnosti mjesnim prilogom",
+    "iov6": "uzvik oduševljenja",
+    "iov0": "Nepoznato",
+
+    "ion1": "rukovanje",
+    "ion2": "pružanje ruke",
+    "ion3": "tapšanje po ramenu i sl.",
+    "ion4": "kimanje glavom",
+    "ion5": "mahanje",
+    "ion6": "ljubljenje",
+    "ion7": "grljenje",
+    "ion8": "pusa u zraku",
+    "ion9": "ignoriranje",
+    "ion10": "daj pet",
+    "ion11": "osmijeh ili smiješak",
+    "ion12": "pozdrav šakom (šakica)",
+    "ion13": "pozdrav kao pri obaranju ruke",
+    "ion0": "Nepoznato",
+    "epv1": "najavljivanje kraja susreta",
+    "epv2": "zaključivanje razgovora",
+    "epv3": "planiranje idućega susreta",
+    "epv4": "poziv na idući susret",
+    "epv5": "naznaka želje za lijepo provedenim vremenom",
+    "epv6": "isprika radi otklanjanja sumnje u eventualne loše namjere",
+    "epv7": "slanje pozdrava (obitelji, prijateljima...)",
+    "epv8": "izražavanje zadovoljstva zbog susreta i zahvaljivanje za uspostavljenom komunikacijom",
+    "epv9": "pozdravljanje sugovornika",
+    "epv10": "prekidanje razgovora u slučaju neuspjele komunikacije",
+    "epv0": "Nepoznato",
+
+    "epn1": "rukovanje",
+    "epn2": "pružanje ruke",
+    "epn3": "tapšanje po ramenu i sl.",
+    "epn4": "kimanje glavom",
+    "epn5": "mahanje",
+    "epn6": "ljubljenje",
+    "epn7": "grljenje",
+    "epn8": "pusa u zraku",
+    "epn9": "ignoriranje",
+    "epn10": "daj pet",
+    "epn11": "osmijeh ili smiješak",
+    "epn12": "pozdrav šakom (šakica)",
+    "epn13": "pozdrav kao pri obaranju ruke",
+    "epn0": "Nepoznato",
+
+    "eov1": "najavljivanje kraja susreta",
+    "eov2": "zaključivanje razgovora",
+    "eov3": "planiranje idućega susreta",
+    "eov4": "poziv na idući susret",
+    "eov5": "naznaka želje za lijepo provedenim vremenom",
+    "eov6": "isprika radi otklanjanja sumnje u eventualne loše namjere",
+    "eov7": "slanje pozdrava (obitelji, prijateljima...)",
+    "eov8": "izražavanje zadovoljstva zbog susreta i zahvaljivanje za uspostavljenom komunikacijom",
+    "eov9": "pozdravljanje sugovornika",
+    "eov10": "prekidanje razgovora u slučaju neuspjele komunikacije",
+    "eov0": "Nepoznato",
+
+    "eon1": "rukovanje",
+    "eon2": "pružanje ruke",
+    "eon3": "tapšanje po ramenu i sl.",
+    "eon4": "kimanje glavom",
+    "eon5": "mahanje",
+    "eon6": "ljubljenje",
+    "eon7": "grljenje",
+    "eon8": "pusa u zraku",
+    "eon9": "ignoriranje",
+    "eon10": "daj pet",
+    "eon11": "osmijeh ili smiješak",
+    "eon12": "pozdrav šakom (šakica)",
+    "eon13": "pozdrav kao pri obaranju ruke",
+    "eon0": "Nepoznato",
+}
+
 class SetEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, set):
@@ -213,14 +315,47 @@ def create_app(test_config=None):
         pdf.set_font("PTSans", size=15)
 
         pdf.multi_cell(200, 10, txt=f"Tekst pretraživanja: {CURRENT_SEARCH}")
-        pdf.multi_cell(200, 20, txt=f'Za attribute pretraživanja:\n {"".join(CURRENT_PARAMS)}')
+        pdf.multi_cell(200, 20, txt=f'Za attribute pretraživanja:\n{"".join(CURRENT_PARAMS)}')
+        pdf.line(10, pdf.get_y(), 200, pdf.get_y())
+
+        for element in DATA_USED:
+            pdf.add_page()
+            
+            invocation_greeting = element["inv_greeting"]
+            invocation_response = element["inv_response"]
+            exvocation_greeting = element["exv_greeting"]
+            exvocation_response = element["exv_response"]
+            attrs = json.loads(element["attrs"])
+            attrs_string = ""
+            
+            for attr_mapping in attrs:
+                if "entry" not in attr_mapping[0]:
+                    values = attr_mapping[1].split(",")
+                    if "ostalo" in attr_mapping[0]:
+                        tmp = []
+                        for value in values:
+                            if value.strip() in KOMB_DICTIONARY.keys():
+                                value = KOMB_DICTIONARY[value.strip()]
+                            tmp.append(value)
+                        values = tmp
+                    attrs_string += f'{attr_mapping[0]} : "{", ".join(values)}", '
+
+            text = f"\nInvokacija:\n - Pozdrav: {invocation_greeting}\n - Odgovor: {invocation_response}\nEksvokacija:\n - Pozdrav: {exvocation_greeting}\n - Odgovor: {exvocation_response}\nAtributi:\n{attrs_string}\n\n"
+            
+            pdf.multi_cell(200, 10, txt=text)
+            pdf.dashed_line(10, pdf.get_y(), 200, pdf.get_y(), 1, 1)
+
         
         file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "Test.pdf")
         pdf.output(file_path)
 
-        return send_file("Test.pdf", mimetype='application/pdf',as_attachment=True)
+        return send_file(file_path, as_attachment=True)
 
     @app.route("/")
+    def nez():
+        return render_template("starting_page.html")
+
+    @app.route("/korpus")
     def starting_page():
         return render_template('home.html')
     return app

@@ -61,6 +61,9 @@ const HTML_CARD_HEADER = '<div class="card-body" id="$$">'
 const HTML_CARD_FOOTER = '<div class="card-footer"><small>Autor: $$</small></div></div>'
 const HTML_REST = '<p class="card-text"><span>ostalo</span>'
 
+$('#pdf-download').bind('click', function(e){
+    e.preventDefault();
+})
 
 $.ajax({
     url: "/dict"
@@ -987,6 +990,9 @@ $("#dyx-btn").on('click', () =>{
 })
 
 $("#advanced-button").on('click', ()=>{
+    for (button in ACTIVE_BUTTONS)
+        ACTIVE_BUTTONS[button] = false
+    
     if(ADVANCED_SEARCH){
         $("#advanced-button").css("background-color", LIGHT_COLOR)
         $("#advanced-button").css("color", DARK_COLOR)
@@ -1082,19 +1088,13 @@ function setDropdownListeners(){
 $("#main-search-input").on('keypress',function(e) {
     if(e.which === 13) {
         createNewSearch()
+        $("#pdf-download").unbind('click')
     }
 });
 
 $("#search-button").on('click', function (){
     createNewSearch()    
-})
-
-$("#export-btn").on('click', function(){
-    $.ajax({
-        url: "/download"
-    }).done((data) => {
-        // localStorage.setItem("attr", JSON.stringify(data))
-    })
+    $("#pdf-download").unbind('click')
 })
 
 function waitForElm(selector) {

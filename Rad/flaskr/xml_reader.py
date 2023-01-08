@@ -14,8 +14,6 @@ XML_DICTIONARY_FILE_NAME = "data/pozz-odzz.xml"
 
 DEFAULT_UNKNOWN_VALUE = "Nepoznato"
 
-
-
 class ElementModel:
     def __init__(self, elements):
         self.attributes = {}
@@ -148,7 +146,6 @@ def return_attributes(dictionary_model_list):
     keys = set()
     for model in dictionary_model_list:
         keys.update(model.keys)
-    print(keys)
 
     # for model in dictionary_model_list:
     #     for key in keys:
