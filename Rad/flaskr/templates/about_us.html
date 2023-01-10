@@ -1,126 +1,232 @@
 <head>
-    <title>O Radu</title>
-    <link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
-    <style>
-        body {
-          font-family: Arial, Helvetica, sans-serif;
-          margin: 0;
-        }
+  <title>O Radu</title>
+  <link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+    }
+
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    .column {
+      float: left;
+      width: 33.3%;
+      margin-bottom: 16px;
+      padding: 0 8px;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      margin: 8px;
+    }
+
+    .about-section {
+      padding: 50px;
+      text-align: center;
+      background-color: #474e5d;
+      color: white;
+    }
+
+    .container {
+      padding: 0 16px;
+    }
+
+    .container::after,
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    .title {
+      color: grey;
+    }
+
+    .button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .button:hover {
+      background-color: #555;
+    }
+
+    @media screen and (max-width: 650px) {
+      .column {
+        width: 100%;
+        display: block;
+      }
+    }
+
+    /* Column container */
+    .row {
+      display: -ms-flexbox;
+      /* IE10 */
+      display: flex;
+      -ms-flex-wrap: wrap;
+      /* IE10 */
+      flex-wrap: wrap;
+    }
+
+    /* Main column */
+    .main {
+      -ms-flex: 70%;
+      /* IE10 */
+      flex: 70%;
+      background-color: white;
+      padding: 20px;
+    }
+
+    img {
+      width: 90%;
+      height: 60%;
+      object-fit: contain;
+    }
+
+    .about-section>p {
+
+      text-align: justify;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="about-section">
+    <h1>O Radu</h1>
+    <p>Pozdravi su ritualizirani sociološki i kulturno utemeljeni verbalno-neverbalne dijaloški oblici afektivnih odnosa
+      u komunikacijskoj situaciji privremenoga susreta dviju ili više osoba. Ostvaruju se invokacijskim i eksvokacijskim
+      pozdravnim obrascima sastavljenim prema strukturi pozdravnih obrazaca koji obuhvaćaju invokaciju i eksvokaciju kao
+      početni i završni dio pozdravnoga rituala. Invokacija i eksvokacija jesu simetrični okviri pozdravnih obrazaca
+      koji se provode u dvjema etapama: 1. invokacijskim pozdravom i odzdravom i 2. eksvokacijskim pozdravom i
+      odzdravom.</p>
+
+    <p>Suvremeni su komunikacijski zahtjevi promijenili narave pozdravnih obrazaca jer je komunikacija na svim razinama
+      postala opuštenija te je uočljiva pomaknuta granice između formalnih i neformalnih komunikacijskih zahtjeva. U
+      istraživanju je invokacijskih i eksvokacijskih pozdravnih obrazaca u hrvatskome jeziku u skladu s recentnim
+      komunikacijskim zahtjevima sudjelovalo trideset i troje studenata na kolegiju Hrvatski jezik u digitalnome dobu
+      diplomskoga studija kroatistike Filozofskoga fakulteta Sveučilišta u Zagrebu nositeljice i izvoditeljice prof. dr.
+      sc. Bernardine Petrović, dvoje doktoranada Filozofskoga fakulteta Sveučilišta u Zagrebu, Maja Matijević i Lobel
+      Filipić s doktorskoga studija Hrvatske filologije u interkulturnome kontekstu te student diplomskoga studija
+      Tomislav Vidović s Fakulteta elektrotehnike i računarstva Sveučilište u Zagrebu. Studenti su svakotjedno
+      prikupljali građu i unosili ju u sustav Lexonomy prema zadanim parametrima. Za prikupljanje je i obradbu građe
+      odabran sustav Lexonomy zbog otvorenoga kôda koji obrađivačima građe dopušta uređivanje korpusa bez financijskih
+      obveza, a korisnicima je dostupan za korištenje i preuzimanje. Upravo se na toj razini Lexonomy pokazao izvrsnim
+      rješenjem. U njemu se lako snalaze obrađivači građe jer se sustav sastoji od domišljenih i obrađivaču
+      prilagodljivih parametara. Nedostatak je sustava Lexonomy nemogućnost relevantne dostupnosti krajnjemu korisniku,
+      što će se u prikazu pozdravnih obrazaca pokazati ozbiljnim problemom.</p>
+
+    <p>Prema prijedlogu strukture pozdravnih obrazaca u hrvatskome jeziku prof. dr. sc. Bernardine Petrović kolege Maja
+      Matijević i Lobel Filipić razvili su strukturu pozdravnih obrazaca u sustavu Lexonomy</p>
+
+    <p>Za kontrolu su studentskih unosa u Lexonomy bili zaduženi kolege Matijević i Filipić, dok je kolega Vidović bio
+      usmjeren rješavanju vidljivosti rezultata. Vidljivost se rezultata naime pokazala velikim izazovom jer Lexonomy
+      nema odgovarajuće rješenje za prikaz rezultata. Stoga su prof. dr. sc. Željka Car i njezin student Tomislav
+      Vidović osmislili originalno računalno sučelje u kojemu je korpus pretraživ po relevantnim znanstvenoistraživačkim
+      parametrima.</p>
+  </div>
+
+  <h1 style="text-align:center">Upute korištenja</h1>
+  <div class="row">
+    <div class="main">
+      <h2>Pretraživanje</h2>
+      <!-- <h5>Title description, Dec 7, 2017</h5> -->
+      <div class="fakeimg"><img src="{{url_for('static', filename='search_example.png')}}"></div>
+      <br>
+      <p>Unosom željenog teksta unutar praznog polja odabire se dio dialoga ili cijeli dialog. Pretraživanje ne ovisi o
+        velikom ili malom slovu. Ukoliko nije odrabrano drugačije pretražuju se pozdravi i odgovori unutar invokacije i
+        eksvokacije. Pretraživanje se izvršava pritiskom na gumba enter na tipkovnici ili odabirom gumba za
+        pretraživanje pored polja za unos.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="main">
+      <h2>Atributi pretraživanja</h2>
+      <div class="fakeimg"><img src="{{url_for('static', filename='attribute_example.png')}}"></div>
+      <br>
+      <p>Kako bi se iskoristio potpuni potencijal pretraživanja koriste se dodatni atributi pretraživanja. Kako bi se
+        odabrali atributi po kojima se pretražuje, odabire se gumb s nazivom atributa, zatim se unese vrijednost
+        atributa po kojoj pretražujemo, te se ponovo pritišće gumb za pretraživanje ili pritišće enter na tipkovnici.
+      </p>
+      <h4>Atributi po kojima se pretražuje su sljedeći:</h4>
+      <p>@sudionik1 ‒ prvi sudionik (osoba koja pokreće komunikaciju, ne nužno osoba koja potiče prestanak komunikacije)<br>
+
+        @sudionik2 ‒ drugi sudionik<br>
         
-        html {
-          box-sizing: border-box;
-        }
+        @situacijski_kontekst ‒ situacija u kojoj se komunikacija odvija (npr. razgovor u trgovini, susret prijatelja pred fakultetom, razgovor s profesoricom na hodniku…)<br>
         
-        *, *:before, *:after {
-          box-sizing: inherit;
-        }
+        @prostor ‒ lokacija na kojoj se komunikacija odvija (npr. Zagreb: Filozofski fakultet, Split: Riva, Rijeka: Korzo, Osijek: u blizini Tvrđe, Magić Mala: ispred vatrogasnoga doma…)
         
-        .column {
-          float: left;
-          width: 33.3%;
-          margin-bottom: 16px;
-          padding: 0 8px;
-        }
+        @vrijeme ‒ vrijeme odvijanja komunikacije (npr. prije podne, poslije podne, večer…)
         
-        .card {
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          margin: 8px;
-        }
+        @opis_ipv ‒ atribut za opisivanje verbalnoga invokacijskog pozdrava (padajući izbornik)
         
-        .about-section {
-          padding: 50px;
-          text-align: center;
-          background-color: #474e5d;
-          color: white;
-        }
+        @opis_ipv_ostalo ‒ atribut za opisivanje verbalnoga invokacijskog pozdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_ipv)
         
-        .container {
-          padding: 0 16px;
-        }
+        @emocija_ipv ‒ emocija koju sudionik komunikacije osjeća tijekom pozdrava
         
-        .container::after, .row::after {
-          content: "";
-          clear: both;
-          display: table;
-        }
+        @opis_ipn ‒ atribut za opisivanje neverbalnoga invokacijskog pozdrava (padajući izbornik)
         
-        .title {
-          color: grey;
-        }
+        @opis_ipn_ostalo ‒ atribut za opisivanje neverbalnoga invokacijskog pozdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_ipn)
         
-        .button {
-          border: none;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: #000;
-          text-align: center;
-          cursor: pointer;
-          width: 100%;
-        }
+        @emocija_ipn ‒ emocija koju sudionik komunikacije osjeća tijekom pozdrava
         
-        .button:hover {
-          background-color: #555;
-        }
+        @opis_iov ‒ atribut za opisivanje verbalnoga invokacijskog odzdrava (padajući izbornik)
         
-        @media screen and (max-width: 650px) {
-          .column {
-            width: 100%;
-            display: block;
-          }
-        }
-        </style>
-        </head>
-        <body>
+        @opis_iov_ostalo ‒ atribut za opisivanje verbalnoga invokacijskog odzdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_iov)
         
-        <div class="about-section">
-          <h1>About Us Page</h1>
-          <p>Some text about who we are and what we do.</p>
-          <p>Resize the browser window to see that this page is responsive by the way.</p>
-        </div>
+        @emocija_iov ‒ emocija koju sudionik komunikacije osjeća tijekom odzdrava
         
-        <h2 style="text-align:center">Our Team</h2>
-        <div class="row">
-          <div class="column">
-            <div class="card">
-              <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">
-              <div class="container">
-                <h2>Jane Doe</h2>
-                <p class="title">CEO & Founder</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>jane@example.com</p>
-                <p><button class="button">Contact</button></p>
-              </div>
-            </div>
-          </div>
+        @opis_ion ‒ atribut za opisivanje neverbalnoga invokacijskog odzdrava (padajući izbornik)
         
-          <div class="column">
-            <div class="card">
-              <img src="/w3images/team2.jpg" alt="Mike" style="width:100%">
-              <div class="container">
-                <h2>Mike Ross</h2>
-                <p class="title">Art Director</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>mike@example.com</p>
-                <p><button class="button">Contact</button></p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="column">
-            <div class="card">
-              <img src="/w3images/team3.jpg" alt="John" style="width:100%">
-              <div class="container">
-                <h2>John Doe</h2>
-                <p class="title">Designer</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>john@example.com</p>
-                <p><button class="button">Contact</button></p>
-              </div>
-            </div>
-          </div>
-        </div>
+        @opis_ion_ostalo ‒ atribut za opisivanje neverbalnoga invokacijskog odzdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_ion)
         
-        </body>
-        </html>
+        @emocija_ion ‒ emocija koju sudionik komunikacije osjeća tijekom odzdrava
+        
+        @opis_epv ‒ atribut za opisivanje verbalnoga eksvokacijskog pozdrava (padajući izbornik)
+        
+        @opis_epv_ostalo ‒ atribut za opisivanje verbalnoga eksvokacijskog pozdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_epv)
+        
+        @emocija_epv ‒ emocija koju sudionik komunikacije osjeća tijekom pozdrava
+        
+        @opis_epn ‒ atribut za opisivanje neverbalnoga eksvokacijskog pozdrava (padajući izbornik)
+        
+        @opis_epn_ostalo ‒ atribut za opisivanje neverbalnoga eksvokacijskog pozdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_epn)
+        
+        @emocija_epn ‒ emocija koju sudionik komunikacije osjeća tijekom pozdrava 
+
+        @opis_eov ‒ atribut za opisivanje verbalnoga eksvokacijskog odzdrava (padajući izbornik)
+        
+        @opis_eov_ostalo ‒ atribut za opisivanje verbalnoga eksvokacijskog odzdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_eov)
+        
+        @emocija_eov ‒ emocija koju sudionik komunikacije osjeća tijekom odzdrava
+
+        @opis_eon ‒ atribut za opisivanje neverbalnoga eksvokacijskog odzdrava (padajući izbornik)
+        
+        @opis_eon_ostalo ‒ atribut za opisivanje neverbalnoga eksvokacijskog odzdrava (upisivanje teksta, unosimo AKO željeni opis nije među ponuđenim opisima u @opis_eon)
+        
+        @emocija_eon ‒ emocija koju sudionik komunikacije osjeća tijekom pozdrava
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
