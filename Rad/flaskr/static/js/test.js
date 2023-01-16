@@ -61,6 +61,49 @@ const HTML_CARD_HEADER = '<div class="card-body" id="$$">'
 const HTML_CARD_FOOTER = '<div class="card-footer"><small>Autor: $$</small></div></div>'
 const HTML_REST = '<p class="card-text"><span>ostalo</span>'
 
+const KEY_BASIC_BUTTON_DESC = {
+    "opis": "Atribut kojim se opisuje pozdrav/odzdrav, npr. grljenje",
+    "emocija": "Emocija sudionika u pozdravu/odzdravu, npr. srdačno",
+    "sudionik": "Ime sudionika unutar pozdrava/odzdrava, npr. sestra",
+    "prostor": "Lokacija pozdrava/odzdrava, npr. whatsapp, Zagreb",
+    "datum": "Datum pozdrava/odzdrava, npr. 27.travnja 2022.",
+    "zamjena_sudionika": "Ukoliko odzdrav započinje 2. sudionik pozdrava, (da ili ne ili prazno)",
+    "autor": "Autor upisa pozdrava/odzdrava, npr. Klementina",
+    "vrijeme": "Vrijeme pozdrava/odzdrava, npr. 10:53 ili popodne",
+    "kontekst": "Situacija odvijanja pozdrava/odzdrava, npr. dogovor za kavu"
+}
+
+const KEY_ADVANCED_BUTTON_DESC = {
+    "opis_ipv": "Atribut za opisivanje verbalnoga invokacijskog pozdrava, npr. pozdravna formula",
+    "opis_ipn": "Atribut za opisivanje neverbalnoga invokacijskog pozdrava, npr. grljenje",
+    "opis_iov": "Atribut za opisivanje verbalnoga invokacijskog odzdrava, npr. odzdravna formula",
+    "opis_ion": "Atribut za opisivanje neverbalnoga invokacijskog odzdrava, npr. uzbuđeno",
+    "opis_epv": "Atribut za opisivanje verbalnoga eksvokacijskog pozdrava, npr. planiranje",
+    "opis_epn": "Atribut za opisivanje neverbalnoga eksvokacijskog pozdrava, npr. osmjeh",
+    "opis_eov": "Atribut za opisivanje verbalnoga eksvokacijskog odzdrava, npr. zaključivanje razgovora",
+    "opis_eon": "Atribut za opisivanje neverbalnoga eksvokacijskog odzdrava, npr. osmjeh",
+
+    "emocija_ipv": "Emocija sudionika tijekom pozdrava (verbalna), npr. srdačno",
+    "emocija_ipn": "Emocija sudionika tijekom pozdrava (neverbalna), npr. srdačno",
+    "emocija_iov": "Emocija sudionika tijekom odzdrava (verbalna), npr. srdačno",
+    "emocija_ion": "Emocija sudionika tijekom odzdrava (neverbalna), npr. srdačno",
+    "emocija_epv": "Emocija sudionika tijekom pozdrava (verbalna), npr. srdačno",
+    "emocija_epn": "Emocija sudionika tijekom pozdrava (neverbalna), npr. srdačno",
+    "emocija_eov": "Emocija sudionika tijekom odzdrava (verbalna), npr. srdačno",
+    "emocija_eon": "Emocija sudionika tijekom odzdrava (neverbalna), npr. srdačno",
+
+    "sudionik1": "Sudionik koji pokreće komunikaciju, npr. sestra",
+    "sudionik2": "Drugi sudionik, npr. sestra",
+    "situacijski_kontekst": "Situacija odvijanja pozdrava/odzdrava, npr. dogovor za kavu",
+
+    "prostor": "Lokacija pozdrava/odzdrava, npr. whatsapp, Zagreb",
+    "datum": "Datum pozdrava/odzdrava, npr. 27.travnja 2022.",
+    "zamjena_sudionika": "Ukoliko odzdrav započinje 2. sudionik pozdrava, (da ili ne ili prazno)",
+    "autor": "Autor upisa pozdrava/odzdrava, npr. Klementina",
+    "vrijeme": "Vrijeme pozdrava/odzdrava, npr. 10:53 ili popodne",
+    "ostalo": "Odabir pretraživanja po invokaciji i/ili eksvokaciji"
+}
+
 $('#pdf-download').bind('click', function(e){
     e.preventDefault();
 })
@@ -100,6 +143,7 @@ function addBasicAttributeSearch(){
             <div class="input-group mb-3" id="${key}-div">
             <button class="btn btn-outline-secondary" type="button" id="${key}-button-basic">${key}</button>
             <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
+            <span class="tooltiptext">${KEY_BASIC_BUTTON_DESC[key]}</span>
         </div>`
         $("#basic-advanced").append(htmlString)
         index += 1
@@ -109,6 +153,7 @@ function addBasicAttributeSearch(){
         <div class="input-group mb-3" id="${key}-div">
             <button class="btn btn-outline-secondary" type="button" id="${key}-button-basic">${key}</button>
             <input id="${key}-input" type="text" class="form-control" placeholder="" aria-label="${key}" aria-describedby="${key}">
+            <span class="tooltiptext">${KEY_BASIC_BUTTON_DESC[key]}</span>
         </div>`
         $(`#${index-1}-row`).append(htmlString)
 
@@ -987,6 +1032,11 @@ function dyxTransform(){
     $("body").css("background-color", "var(--dyx-body-color)")
     $("input").css("background-color", "var(--dyx-body-color)")
     $("input").css("border-color", "var(--dyx-color)")
+
+    $(".tooltip").css("background-color", "var(--dyx-body-color)")
+    $(".tooltiptext").css("background-color", "var(--dyx-body-color)")
+    $(".tooltip").css("color", "var(--dyx-color)")
+    $(".tooltiptext").css("color", "var(--dyx-color)")
 }
 
 function revertDyx(){
@@ -999,7 +1049,12 @@ function revertDyx(){
     $("small").css("color", "var(--normal-dim-color)");
     $("body").css("background-color", "var(--normal-body-color)")
     $("input").css("background-color", "var(--normal-body-color)")
-    $("input").css("border-color", "var(--normal-dim-color)")
+    $("input").css("border-color", "var(--normal-dim-color)");
+
+    $(".tooltip").css("background-color", "var(--normal-dim-color)");
+    $(".tooltiptext").css("background-color", "var(--normal-dim-color)");
+    $(".tooltip").css("color", "white");
+    $(".tooltiptext").css("color", "white");
 }
 
 $("#dyx-btn").on('click', () =>{
@@ -1055,6 +1110,7 @@ $("#advanced-button").on('click', ()=>{
                         <div class="input-group mb-3" id="${j[key]}-div">
                         <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button-advanced">${j[key]}</button>
                         <input id="${j[key]}-input" type="text" class="form-control" placeholder="" aria-label="${j[key]}" aria-describedby="${j[key]}">
+                        <span class="tooltiptext">${KEY_ADVANCED_BUTTON_DESC[j[key]]}</span>
                     </div>`
                     $("#advanced").append(htmlString)
                     index += 1
@@ -1063,6 +1119,7 @@ $("#advanced-button").on('click', ()=>{
                     htmlString += `<div class="input-group mb-3" id="${j[key]}-div">
                     <button class="btn btn-outline-secondary" type="button" id="${j[key]}-button-advanced">${j[key]}</button>
                     <input id="${j[key]}-input" type="text" class="form-control" placeholder="" aria-label="${j[key]}" aria-describedby="${j[key]}">
+                    <span class="tooltiptext">${KEY_ADVANCED_BUTTON_DESC[j[key]]}</span>
                 </div>`
                     $(`#${index-1}-row`).append(htmlString)
         
@@ -1082,6 +1139,7 @@ $("#advanced-button").on('click', ()=>{
                                 <a class="dropdown-item" id="inv-exv-drop" href="#">Invokacija i Eksvokacija</a>
                             </div>
                         </div>
+                        <span class="tooltiptext">${KEY_ADVANCED_BUTTON_DESC["ostalo"]}</span>
                     </div>`
             $(`#${index-1}-row`).append(htmlString)
             addButtonListener("ostalo-button-advanced")

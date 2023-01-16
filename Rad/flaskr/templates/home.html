@@ -1,50 +1,67 @@
 <head>
-<title>Korpus</title>
-<link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
+    <title>Korpus</title>
+    <link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
 </head>
-<html>    
-    <body>
-        <div>
-            <!-- <label for="site-search">Search the site:</label> -->
-            <!-- <input type="search" id="dictionary-search" name="q" placeholder="unos pozdrava">
+<html>
+
+<body>
+    <div>
+        <!-- <label for="site-search">Search the site:</label> -->
+        <!-- <input type="search" id="dictionary-search" name="q" placeholder="unos pozdrava">
             <button id="search-button">Pretraži</button> -->
-            <div class="input-group mb-3" id="div-mockup" >
-                <input id="input-mockup" type="text" class="form-control" placeholder="">
-                <button id="plus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
-                <button id="minus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
-                <button id="dyx-btn" class="btn btn-outline-secondary" type="button"><span>DYX</span></button>
-                <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Saznaj više</span></button></a>
-                <a id="pdf-download" href="{{ url_for('.download_data') }}"><button id="export-btn" class="btn btn-outline-secondary" type="button" disabled><span>Izvezi u PDF</span></button></a>
-            </div>
-            <div class="input-group mb-3" id="main-search-div">
-                <button class="btn btn-outline-secondary" type="button" id="advanced-button">Koristi napredno pretraživanje</button>
-                <input id="main-search-input" type="text" class="form-control" placeholder="Tekst za pretraživanje" aria-label="main-search" aria-describedby="main-search">
-                <button id="search-button" class="btn btn-outline-secondary" type="button" id="main-search"><i class="fa fa-search"></i></button>
-            </div>
-            <div id="advanced">
-                <hr>
-            </div>
-            <div id="basic-advanced">
-                <hr>
-            </div>
-            <div id="divider">
-                <hr>
-                <br>
-            </div>
-            <div id="dictionary-content"></div>
-        </div>  
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/notification.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/test.css')}}">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="{{url_for('static', filename='js/notify.js')}}"></script>
-        <script src="{{url_for('static', filename='js/utils.js')}}"></script>
-        <script src="{{url_for('static', filename='js/test.js')}}"></script>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </body>
+        <div class="input-group mb-3" id="div-mockup">
+            <input id="input-mockup" type="text" class="form-control" placeholder="">
+            <button id="plus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
+            <button id="minus-btn" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
+            <button id="dyx-btn" class="btn btn-outline-secondary" type="button"><span>DYX</span></button>
+            <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Saznaj
+                        više</span></button></a>
+            <a id="pdf-download" href="{{ url_for('.download_data') }}"><button id="export-btn"
+                    class="btn btn-outline-secondary" type="button" disabled><span>Izvezi u PDF</span></button></a>
+        </div>
+        <div class="input-group mb-3" id="main-search-div">
+            <button class="btn btn-outline-secondary" type="button" id="advanced-button">Koristi napredno
+                pretraživanje</button>
+            <input id="main-search-input" type="text" class="form-control" placeholder="Tekst za pretraživanje"
+                aria-label="main-search" aria-describedby="main-search">
+            <button id="search-button" class="btn btn-outline-secondary" type="button" id="main-search"><i
+                    class="fa fa-search"></i></button>
+        </div>
+        <div id="advanced">
+            <hr>
+        </div>
+        <div id="basic-advanced">
+            <hr>
+        </div>
+        <div id="divider">
+            <hr>
+            <br>
+        </div>
+        <div id="dictionary-content"></div>
+    </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/notification.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/test.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='js/notify.js')}}"></script>
+    <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+    <script src="{{url_for('static', filename='js/test.js')}}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</body>
+
 </html>
