@@ -1,7 +1,7 @@
 import os
 import json
 from .xml_reader import main, return_entries
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect, url_for
 from werkzeug.utils import secure_filename
 from fpdf import FPDF
 
@@ -210,7 +210,7 @@ def create_app(test_config=None):
 
         if basic:
             for key in search_params:
-                _CURRENT_PARAMS.append(f"{key}: {search_params[key]}, ")
+                _CURRENT_PARAMS.append(f"{key}: {search_params[key]} // ")
 
                 if "emocija" in key:
                     or_attributes['emocije'].append(key)
@@ -314,9 +314,9 @@ def create_app(test_config=None):
         pdf.add_font("PTSansBold", "", bold_font_path, uni=True)
         pdf.set_font("PTSans", size=15)
 
-        pdf.multi_cell(200, 10, txt=f"Tekst pretraživanja: {CURRENT_SEARCH}")
-        pdf.multi_cell(200, 20, txt=f'Za attribute pretraživanja:\n{"".join(CURRENT_PARAMS)}')
-        pdf.line(10, pdf.get_y(), 200, pdf.get_y())
+        pdf.multi_cell(190, 10, txt=f"Tekst pretraživanja: {CURRENT_SEARCH}")
+        pdf.multi_cell(190, 20, txt=f'Za attribute pretraživanja:\n{"".join(CURRENT_PARAMS)}')
+        pdf.line(10, pdf.get_y(), 190, pdf.get_y())
 
         for element in DATA_USED:
             pdf.add_page()
@@ -338,17 +338,19 @@ def create_app(test_config=None):
                                 value = KOMB_DICTIONARY[value.strip()]
                             tmp.append(value)
                         values = tmp
-                    attrs_string += f'{attr_mapping[0]} : "{", ".join(values)}", '
+                    attrs_string += f'{attr_mapping[0]} : "{" // ".join(values)}" // '
 
             text = f"\nInvokacija:\n - Pozdrav: {invocation_greeting}\n - Odgovor: {invocation_response}\nEksvokacija:\n - Pozdrav: {exvocation_greeting}\n - Odgovor: {exvocation_response}\nAtributi:\n{attrs_string}\n\n"
             
-            pdf.multi_cell(200, 10, txt=text)
+            pdf.multi_cell(190, 10, txt=text)
             pdf.dashed_line(10, pdf.get_y(), 200, pdf.get_y(), 1, 1)
 
         
         file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "Test.pdf")
-        pdf.output(file_path)
-
+        try:
+            pdf.output(file_path)
+        except Exception as e:
+            return redirect(url_for('starting_page'))
         return send_file(file_path, as_attachment=True)
 
     @app.route("/")

@@ -99,7 +99,7 @@ const KEY_ADVANCED_BUTTON_DESC = {
     "prostor": "Lokacija pozdrava/odzdrava, npr. whatsapp, Zagreb",
     "datum": "Datum pozdrava/odzdrava, npr. 27.travnja 2022.",
     "zamjena_sudionika": "Ukoliko odzdrav započinje 2. sudionik pozdrava, (da ili ne ili prazno)",
-    "autor": "Autor upisa pozdrava/odzdrava, npr. Klementina",
+    "autor_upisa": "Autor upisa pozdrava/odzdrava, npr. Klementina",
     "vrijeme": "Vrijeme pozdrava/odzdrava, npr. 10:53 ili popodne",
     "ostalo": "Odabir pretraživanja po invokaciji i/ili eksvokaciji"
 }
