@@ -1,6 +1,32 @@
 <head>
     <title>GREŠKA</title>
     <link rel="icon" type="image/x-icon" href="/static/data/greeting_icon.png">
+    <script>
+        rand = Math.floor(Math.random() * 4)
+        var subPath = ""
+        switch (rand) {
+            case 1:
+                subPath = "{{url_for('static', filename='css/404_blue.scss')}}"
+                break;
+            case 2:
+                subPath = "{{url_for('static', filename='css/404_orange.scss')}}"
+                break;
+            case 0:
+                subPath = "{{url_for('static', filename='css/404_red.scss')}}"
+                break;
+            default:
+                subPath = "{{url_for('static', filename='css/404_green.scss')}}"
+                break;
+        }
+        var link = document.createElement("link");
+        link.href = subPath
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.media = "screen,print";
+
+        document.getElementsByTagName("head")[0].appendChild(link);
+
+    </script>
 </head>
 
 <body>
@@ -12,16 +38,17 @@
         <p class="output">Molim Vas, vratite se na <a href=" {{ url_for('.nez') }}">početnu stranicu</a> ili
             <a href=" {{ url_for('.starting_page') }}">pretražite još jednom korpus</a>.
         </p>
-        <p class="output">Ukoliko Ste izgubljeni ili Vas zanima nešto više o radu <a
-                href=" {{ url_for('.about_us') }}">saznajte više ovdje</a>.
+        <p class="output">Ukoliko Ste izgubljeni </p>
+        <p class="output">ili Vas zanima nešto više o radu <a href=" {{ url_for('.about_us') }}">saznajte više
+                ovdje</a>.
         </p>
         <p class="output">Sretno.</p>
         <p class="output line-1 anim-typewriter">Još ste tu? nećete još dugo bit hehe :) ...........</p>
         <p class="output" id="footer">-Vaš nepoznati mali ferovac TV-</p>
 
     </div>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/404_blue.scss')}}">
     <script>
+
         setTimeout(() => {
             window.location.href = " {{ url_for('.nez') }}";
         }
