@@ -326,4 +326,4 @@ def create_app(test_config=None):
     def error_(e):
         return render_template("500.html")
 
-    return app
+    return app.run(host=0.0.0.0)
