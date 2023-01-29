@@ -2,7 +2,6 @@ import os
 from urllib import response
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-import json
 from .config import (
     INVOCATION_GREETING_TAG,
     INVOCATION_RESPONSE_TAG,

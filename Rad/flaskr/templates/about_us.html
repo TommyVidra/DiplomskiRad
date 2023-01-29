@@ -7,7 +7,7 @@
   <link rel="icon" type="image/x-icon" href="/static/greeting_icon.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="{{url_for('static', filename='css/test.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -164,21 +164,22 @@
             korpus</span></button></a>
     </div>
     <h1>O radu</h1>
-    <p>Pozdravi su ritualizirani sociološki i kulturno utemeljeni verbalno-neverbalne dijaloški oblici afektivnih odnosa
+    <p>Pozdravi su ritualizirani sociološki i kulturno utemeljeni verbalno-neverbalni dijaloški oblici afektivnih odnosa
       u komunikacijskoj situaciji privremenoga susreta dviju ili više osoba. Ostvaruju se invokacijskim i eksvokacijskim
       pozdravnim obrascima sastavljenim prema strukturi pozdravnih obrazaca koji obuhvaćaju invokaciju i eksvokaciju kao
       početni i završni dio pozdravnoga rituala. Invokacija i eksvokacija jesu simetrični okviri pozdravnih obrazaca
       koji se provode u dvjema etapama: 1. invokacijskim pozdravom i odzdravom i 2. eksvokacijskim pozdravom i
       odzdravom.</p>
 
-    <p>Suvremeni su komunikacijski zahtjevi promijenili narave pozdravnih obrazaca jer je komunikacija na svim razinama
+    <p>Suvremeni su komunikacijski zahtjevi promijenili narav pozdravnih obrazaca jer je komunikacija na svim razinama
       postala opuštenija te je uočljiva pomaknuta granice između formalnih i neformalnih komunikacijskih zahtjeva. U
       istraživanju je invokacijskih i eksvokacijskih pozdravnih obrazaca u hrvatskome jeziku u skladu s recentnim
       komunikacijskim zahtjevima sudjelovalo trideset i troje studenata na kolegiju Hrvatski jezik u digitalnome dobu
       diplomskoga studija kroatistike Filozofskoga fakulteta Sveučilišta u Zagrebu nositeljice i izvoditeljice prof. dr.
-      sc. Bernardine Petrović, dvoje doktoranada Filozofskoga fakulteta Sveučilišta u Zagrebu, Maja Matijević i Lobel
+      sc. Bernardine Petrović, dvoje asistenata iz Instituta za hrvatski jezik i jezkoslovlje te doktoranada
+      Filozofskoga fakulteta Sveučilišta u Zagrebu, Maja Matijević i Lobel
       Filipić s doktorskoga studija Hrvatske filologije u interkulturnome kontekstu te student diplomskoga studija
-      Tomislav Vidović s Fakulteta elektrotehnike i računarstva Sveučilište u Zagrebu. Studenti su svakotjedno
+      Tomislav Vidović s Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu. Studenti su svakotjedno
       prikupljali građu i unosili ju u sustav Lexonomy prema zadanim parametrima. Za prikupljanje je i obradbu građe
       odabran sustav Lexonomy zbog otvorenoga kôda koji obrađivačima građe dopušta uređivanje korpusa bez financijskih
       obveza, a korisnicima je dostupan za korištenje i preuzimanje. Upravo se na toj razini Lexonomy pokazao izvrsnim
@@ -191,22 +192,24 @@
 
     <p>Za kontrolu su studentskih unosa u Lexonomy bili zaduženi kolege Matijević i Filipić, dok je kolega Vidović bio
       usmjeren rješavanju vidljivosti rezultata. Vidljivost se rezultata naime pokazala velikim izazovom jer Lexonomy
-      nema odgovarajuće rješenje za prikaz rezultata. Stoga su prof. dr. sc. Željka Car i njezin student Tomislav
-      Vidović osmislili originalno računalno sučelje u kojemu je korpus pretraživ po relevantnim znanstvenoistraživačkim
+      nema odgovarajuće rješenje za prikaz rezultata. Stoga su svi suradnici na projektu osmislili sučelje koje su prof.
+      dr. sc. Željka Car i njezin student Tomislav
+      Vidović izradili i u kojemu je korpus pretraživ po relevantnim znanstvenoistraživačkim
       parametrima.</p>
     <br>
-    <h1 style="text-align:center">Upute korištenja:</h1>
+    <h1 style="text-align:center">Upute za korištenje:</h1>
   </div>
 
   <div class="row">
     <div class="main">
       <h2>Pretraživanje</h2>
       <!-- <h5>Title description, Dec 7, 2017</h5> -->
-      <div class="fakeimg"><img src="{{url_for('static', filename='search_example.png')}}"></div>
+      <div class="fakeimg"><img src="{{url_for('static', filename='data/search_example.png')}}"></div>
       <br>
-      <p>Unosom željenog teksta unutar praznog polja odabire se dio dijaloga ili cijeli dijalog. Pretraživanje ne ovisi o
-        velikom ili malom slovu. Ukoliko nije odabrano drugačije pretražuju se pozdravi i odgovori unutar invokacije i
-        eksvokacije. Pretraživanje se izvršava pritiskom na gumba Enter na tipkovnici ili odabirom gumba za
+      <p>U prazno polje unosi se dio pozdrava ili cijeli pozdrav. Pretraživanje ne ovisi
+        o
+        velikom ili malom slovu. Ako nije odabrano drugačije pretražuju se pozdravi i odzdravi unutar invokacije i
+        eksvokacije. Pretražuje se pritiskom na tipke Enter na tipkovnici ili odabirom simbola za
         pretraživanje pored polja za unos.
       </p>
     </div>
@@ -215,32 +218,33 @@
   <div class="row">
     <div class="main">
       <h2>Atributi pretraživanja</h2>
-      <div class="fakeimg"><img src="{{url_for('static', filename='attribute_example.png')}}"></div>
+      <div class="fakeimg"><img src="{{url_for('static', filename='data/attribute_example.png')}}"></div>
       <br>
-      <p>Kako bi se iskoristio potpuni potencijal pretraživanja koriste se dodatni atributi pretraživanja. Kako bi se
-        odabrali atributi po kojima se pretražuje, odabire se gumb s nazivom atributa, zatim se unese vrijednost
-        atributa po kojoj pretražujemo, te se ponovo pritišće gumb za pretraživanje ili pritišće Enter na tipkovnici.
-        Opisi svakog atributa se pojavljuju nakon prijelaza mišem preko polja za unos ili gumba koji označava atribut.
+      <p>Kako bi se iskoristio potpuni potencijal pretraživanja, koriste se dodatne opcije. Za označavanje atributa po
+        kojima se pretražuje odabire se gumb s nazivom atributa, zatim se unese vrijednost
+        atributa po kojoj se pretražuje, te se ponovno pritisne simbol tražilice za pretraživanje ili tipka Enter na
+        tipkovnici.
+        Opisi svakoga atributa pojavljuju se nakon prijelaza mišem preko polja za unos ili gumba koji označava atribut.
       </p>
     </div>
   </div>
   <div class="row">
     <div class="main">
       <h2>Napredno pretraživanje</h2>
-      <div class="fakeimg"><img src="{{url_for('static', filename='advanced-example.png')}}"></div>
+      <div class="fakeimg"><img src="{{url_for('static', filename='data/advanced-example.png')}}"></div>
       <br>
-      <p>Odabirom opcije "Koristi napredno pretraživanje", otvara se novi prikaz s detaljnijim odabirom atributa za
+      <p>Pritiskom na opciju "Koristi napredno pretraživanje" otvara se novi prikaz s više mogućih odabirom atributa za
         pretraživanje.
-        Ponovnim klikom na isti gumb, prikaz se vrača na obični način pretraživanja.
+        Ponovnim klikom na isti gumb prikaz se vraća na jednostavno pretraživanje.
       </p>
     </div>
   </div>
   <div class="row">
     <div class="main">
       <h2>Prikazi pozdrava</h2>
-      <div class="fakeimg"><img src="{{url_for('static', filename='card_example.png')}}"></div>
+      <div class="fakeimg"><img src="{{url_for('static', filename='data/card_example.png')}}"></div>
       <br>
-      <p>Nakon pretraživanja korisnik odabire karticu s traženim pozdravom/odzdravom i klikom na nju prikazuje se njen
+      <p>Nakon pretraživanja korisnik odabire karticu s traženim pozdravom/odzdravom i klikom na nju otvara se njezin
         detaljniji prikaz. Ponovnim klikom na istu karticu ona se sažme na sažeti prikaz. Na kartici je označeno
         "INVOKACIJA", "EKSVOKACIJA" ili "INVOKACIJA | EKSVOKACIJA" ovisno o tome po čemu se podario uneseni tekst.
       </p>
@@ -250,8 +254,9 @@
     <div class="main">
       <h2>Prilagodbe</h2>
       <br>
-      <p>Opcije za prilagodbu stranice se nalaze iznad polja za pretraživanje, a sastoje se od: "+" -> povećavanje
-        fonta, "-" -> umanjivanje fonta, "DYX" -> poseban prikaz prilagođen osobama s disleksijom.
+      <p>Opcije za prilagodbu stranice nalaze se iznad polja za pretraživanje, (opcija za povećanje fonta označena
+        simbolom "+", opcija za smanjenje fonta označene simbolom "-", te opcija "DYX" za prikaz
+        prilagođen osobama s disleksijom.
       </p>
     </div>
   </div>
@@ -259,8 +264,8 @@
     <div class="main">
       <h2>Izvoz podataka u PDF</h2>
       <br>
-      <p>Klikom gumba "Izvezi u PDF" sve situacije koje se podudaraju s atributima pretraživanja se zapisuju u PDF
-        datoteku koja se može onda preuzeti.
+      <p>Klikom na gumb "Izvezi u PDF" svi rezultati pretraživanja s odabranim atributima koji su prikazani na zaslonu
+        pohranjuju se u zasebnu PDF datoteku na računalu korisnika.
       </p>
     </div>
   </div>
@@ -391,10 +396,10 @@
     $("h1").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
     current_size = $("h2").css("font-size");
     $("h2").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
-    
+
     current_size = $("footer > p").css("font-size");
     $("footer>p").css("font-size", parseInt(current_size.split("px")[0]) + 1 + "px");
-    })
+  })
   $("#minus-btn").on('click', () => {
     var current_size = $(".main>p").css("font-size");
     $(".main>p").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
@@ -406,7 +411,7 @@
     $("h1").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
     current_size = $("h2").css("font-size");
     $("h2").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
-    
+
     current_size = $("footer > p").css("font-size");
     $("footer>p").css("font-size", parseInt(current_size.split("px")[0]) - 1 + "px");
   })

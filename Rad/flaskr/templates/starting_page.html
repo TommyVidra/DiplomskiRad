@@ -41,7 +41,7 @@
     }
 
     .bgimg {
-      background-image: url('/static/open_book.jpg');
+      background-image: url('/static/data/open_book.jpg');
       min-height: 100%;
       background-position: center;
       background-size: cover;
@@ -68,16 +68,21 @@
       <h1 class="w3-jumbo w3-animate-top">PozdraviMe</h1>
       <hr class="w3-border-grey" style="margin:auto;width:40%">
       <div class="text-container">
-        <p class="w3-large w3-center">Dobro došli na tražilicu korpusa pozdrava i odzdrava. Korpus je sastavljen u
-          sklopu kolegija Hrvatski jezik u digitalnome dobu, na Filozofskom fakultetu u Zagrebu. Dok je aplikacija
-          sastavljena na Fakultetu elektrotehnike i računarstva u sklopu Diplomskog Rada</p>
+        <p class="w3-large w3-center">Dobro došli na sučelje za pretraživanje korpusa pozdrava i odzdrava. Korpus je
+          sastavljen u
+          sklopu kolegija Hrvatski jezik u digitalnome dobu, na Filozofskome fakultetu Sveučilišta u Zagrebu. Programska
+          podrška za pretraživanje korpusa razvijena je na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu.
+        </p>
         <p class="w3-large w3-center">Autori: prof. dr. sc. Bernardina Petrović, Maja Matijević mag.
-          philol. croat. et inf., Lobel Filipić mag. educ.
-          philol. croat. et inf., prof. dr. sc. Željka Car i Tomislav Vidović univ. bacc. ing. comp. </p>
+          philol. croat. et mag. inf., Lobel Filipić mag. educ.
+          philol. croat. et mag. inf.</p>
+        <p class="w3-large w3-center">Programska podrška: Tomislav Vidović univ. bacc. ing.
+          comp. u sklopu diplomskoga rada pod mentorstvom prof. dr. sc. Željke Car</p>
       </div>
       <a href="{{ url_for('.starting_page') }}"><button class="btn btn-outline-secondary" type="button"><span>Pretraži
             korpus</span></button></a>
-      <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Više o radu</span></button></a>
+      <a href="{{ url_for('.about_us') }}"><button class="btn btn-outline-secondary" type="button"><span>Više o
+            radu</span></button></a>
     </div>
   </div>
 

@@ -1,0 +1,206 @@
+@font-face {
+    font-family: dislexia;
+    src: url("/static/fonts/OpenDyslexic-Regular.otf")
+}
+
+@font-face {
+    font-family: dislexia;
+    font-weight: bold;
+    src: url("/static/fonts/OpenDyslexic-Bold.otf")
+}
+
+:root {
+    --dyx-back-color: #EDD1B0;
+    --dyx-color: #213A82;
+    --dyx-dim-color: #4B6DD2;
+    --dyx-h4-color: #3A506B;
+    --dyx-body-color: #F8EBDE;
+    --dyx-selected-color: #CA7A2B;
+    --normal-body-color: #fff;
+    --normal-dim-color: #6c757d;
+    --normal-back-color: #f8f9fa;
+    --normal-h4-color: #7C8FA2;
+}
+
+body {
+    font-family: "Raleway", sans-serif
+}
+
+#dyx-btn {
+    font-family: dislexia;
+}
+
+small {
+    color: var(--normal-dim-color);
+}
+
+.div-input {
+    width: 80%;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+}
+
+.tooltip,
+.tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    bottom: 100%;
+    left: 3.5%;
+    margin-left: -60px;
+    /* Use half of the width (120/2 = 60), to center the tooltip */
+    background-color: var(--normal-dim-color);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px !important;
+    border: 2px solid var(--normal-dim-color);
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1000;
+    opacity: 0;
+    transition: visibility 0s, opacity .1s linear;
+}
+
+.input-group:hover>.tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .8s linear;
+}
+
+.div-input>.form-outline {
+    display: inline-block;
+}
+
+#main-search-div {
+    width: 95%;
+    margin-top: 10px;
+    text-align: center;
+    padding-left: 5%;
+}
+
+#div-mockup {
+    margin-top: 10px !important;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+
+#input-mockup {
+    width: 0px;
+    margin-left: 20%;
+    size: 0px;
+    flex: none;
+    border: none;
+    cursor: default;
+}
+
+#main-search-div>.btn:focus {
+    box-shadow: none;
+}
+
+p>span {
+    font-weight: bold;
+}
+
+.card {
+    background-color: var(--normal-back-color);
+    transition: transform .1s;
+    /* Animation */
+}
+
+.card:hover {
+    transform: scale(1.02);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.notbold {
+    font-weight: normal !important
+}
+
+#dictionary-content>.row {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+#dictionary-content {
+
+    margin-bottom: 10%;
+}
+
+#advanced {
+    display: none;
+}
+
+#divider {
+    display: none;
+}
+
+#advanced .input-group {
+    width: 25% !important
+}
+
+#basic-advanced .input-group {
+    width: 25% !important
+}
+
+#inv-exv {
+    display: none;
+}
+
+.large {
+    display: none;
+}
+
+.large>h5,
+p {
+    margin-left: 10px;
+}
+
+.large>h4 {
+    color: #7C8FA2;
+}
+
+.large>h5 {
+    margin-top: 12px;
+}
+
+.dropdown {
+    width: 100%;
+}
+
+#dropdownType {
+    width: 100%;
+}
+
+.dropdown-menu {
+    width: 100%
+}
+
+.card-body {
+    cursor: pointer;
+}
+
+a>button {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+button,
+a {
+    transition: transform .5s ease;
+    z-index: 1;
+    /* background-color: var(--normal-back-color) ; */
+}
+
+button:hover,
+a:hover {
+    z-index: 100;
+    transform: scale(1.1);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}

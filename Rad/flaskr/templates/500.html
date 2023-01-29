@@ -1,0 +1,30 @@
+<head>
+    <title>GREŠKA</title>
+    <link rel="icon" type="image/x-icon" href="/static/data/greeting_icon.png">
+</head>
+
+<body>
+    <div class="noise"></div>
+    <div class="overlay"></div>
+    <div class="terminal">
+        <h1>GREška </h1>
+        <p class="output">Izgleda da se developeri nisu pobrinuli za svoj posao.</p>
+        <p class="output">Molim Vas, vratite se na <a href=" {{ url_for('.nez') }}">početnu stranicu</a> ili
+            <a href=" {{ url_for('.starting_page') }}">pretražite još jednom korpus</a>.
+        </p>
+        <p class="output">Ukoliko Ste izgubljeni ili Vas zanima nešto više o radu <a
+                href=" {{ url_for('.about_us') }}">saznajte više ovdje</a>.
+        </p>
+        <p class="output">Sretno.</p>
+        <p class="output line-1 anim-typewriter">Vraćam se na korpus................................</p>
+        <p class="output" id="footer">-Vaš nepoznati mali ferovac TV-</p>
+
+    </div>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/404_blue.scss')}}">
+    <script>
+        setTimeout(() => {
+            window.location.href = " {{ url_for('.nez') }}";
+        }
+            , 30000);
+    </script>
+</body>
