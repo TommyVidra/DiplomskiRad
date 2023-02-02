@@ -73,7 +73,8 @@ def create_app(test_config=None):
             )
             return json_dictionary_attributes
         except Exception as e:
-            return error_(e)
+            return_json = {"status": "error", "message": str(e)}
+            return json.dumps(return_json)
 
     # Receive search parameters and return situations matching with those parameters
     @app.route("/search", methods=["POST"])
@@ -234,7 +235,8 @@ def create_app(test_config=None):
                 results, cls=SetEncoder, sort_keys=True, ensure_ascii=False
             )
         except Exception as e:
-            return error_(e)
+            return_json = {"status": "error", "message": str(e)}
+            return json.dumps(return_json)
 
     @app.route("/download")
     def download_data():
@@ -324,6 +326,7 @@ def create_app(test_config=None):
 
     @app.errorhandler(500)
     def error_(e):
+        print(e)
         return render_template("500.html")
 
     return app

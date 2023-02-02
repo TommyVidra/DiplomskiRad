@@ -111,7 +111,14 @@ $('#pdf-download').bind('click', function(e){
 $.ajax({
     url: "/dict"
 }).done((data) => {
-    localStorage.setItem("attr", JSON.stringify(data))
+    try{
+        if(JSON.parse(data).status){
+            window.location.href = "/500"
+        }
+    }
+    catch{
+        localStorage.setItem("attr", JSON.stringify(data))
+    }
 })
 
 function addBasicAttributeSearch(){
@@ -888,7 +895,14 @@ function callSearchFunction(searchData, searchAttrs, searchType){
         dataType: 'json',
         data: {search_string: searchData, search_params: JSON.stringify(searchAttrs), search_type: searchType}
     }).done((data) => {
-        search(data)
+        try{
+            if(JSON.parse(data).status){
+                window.location.href = "/500"
+            }
+        }
+        catch{
+            search(data)
+        }
     })
 }
 var waitForEl = function(selector, callback) {
@@ -926,7 +940,6 @@ function createNewSearch(){
     }
     if(activeButtons === 0 && $("#dropdownType").val() === ''){
         searchType = 0
-        console.log("Kuraaac")
     }
     if(ADVANCED_SEARCH){
         searchAttrs["search_scene"] = $("#dropdownType").val()
